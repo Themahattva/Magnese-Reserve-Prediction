@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  # ─── PostgreSQL + PostGIS ──────────────────────────
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: moil-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: moil_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ─── FastAPI Backend ───────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: moil-backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/moil_db
+      DATABASE_SYNC_URL: postgresql://postgres:postgres@db:5432/moil_db
+      DEBUG: "true"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - ./ml/models:/app/ml/models
+
+volumes:
+  pgdata:

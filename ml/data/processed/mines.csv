@@ -1,0 +1,10 @@
+id,name,latitude,longitude,district,state,mine_type,area_hectares,elevation_m,year_established,is_active
+1,Dongri Buzurg,21.548660,79.682890,Bhandara,Maharashtra,opencast,285,310,1962,True
+2,Balaghat,21.849722,80.226667,Balaghat,Madhya Pradesh,underground,420,380,1956,True
+3,Chikla,21.543056,79.753889,Nagpur,Maharashtra,opencast,180,290,1970,True
+4,Munsar,21.401389,79.280833,Nagpur,Maharashtra,opencast,210,320,1965,True
+5,Kandri,21.411667,79.266111,Nagpur,Maharashtra,underground,310,280,1958,True
+6,Gumgaon,21.400000,78.983333,Nagpur,Maharashtra,opencast,155,305,1972,True
+7,Parsioni,21.4,79.22,Nagpur,Maharashtra,opencast,120,275,1978,True
+8,Sitapatore,21.666667,79.666667,Balaghat,Madhya Pradesh,underground,190,410,1960,True
+9,Tirodi,21.683056,79.733056,Balaghat,Madhya Pradesh,mixed,240,350,1968,True

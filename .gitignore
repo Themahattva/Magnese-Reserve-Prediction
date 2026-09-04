@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build
+.next/
+out/
+build/
+dist/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+venv/
+.venv/
+
+# Environment & Credentials
+.env
+.env.local
+.env.*.local
+*.json.key
+backend/credentials/
+credentials/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+Icon?
+
+# Docker
+pgdata/
+
+# ML models (large files)
+ml/models/*.joblib
+ml/models/*.pkl
+ml/data/raw/
+ml/data/satellite/
+
+# Logs
+*.log
