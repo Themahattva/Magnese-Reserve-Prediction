@@ -1,117 +1,149 @@
 id,mine_id,equipment_type,model_name,capacity,status,last_maintenance,next_maintenance
-1,1,Drill Rig,DRI-598,67T,breakdown,2026-06-08,2026-10-23
-2,1,Loader,LOA-575,72T,active,2026-07-22,2026-10-04
-3,1,Excavator,EXC-693,61T,maintenance,2026-06-13,2026-09-22
-4,1,Drill Rig,DRI-620,78T,active,2026-06-18,2026-10-20
-5,1,Crusher,CRU-327,55T,active,2026-06-28,2026-09-17
-6,1,Dumper,DUM-251,69T,active,2026-06-28,2026-10-27
-7,1,Excavator,EXC-979,77T,active,2026-07-19,2026-09-14
-8,1,Excavator,EXC-229,92T,active,2026-06-22,2026-10-10
-9,1,Loader,LOA-413,44T,active,2026-05-26,2026-10-23
-10,1,Dumper,DUM-464,91T,active,2026-05-30,2026-10-03
-11,1,Drill Rig,DRI-785,80T,breakdown,2026-06-29,2026-10-19
-12,1,Bulldozer,BUL-263,12T,active,2026-07-12,2026-10-27
-13,2,Bulldozer,BUL-733,71T,active,2026-06-10,2026-09-14
-14,2,Dumper,DUM-614,60T,active,2026-06-22,2026-10-29
-15,2,Crusher,CRU-944,15T,active,2026-05-25,2026-09-28
-16,2,Excavator,EXC-338,74T,active,2026-05-08,2026-10-29
-17,2,Crusher,CRU-486,74T,active,2026-06-22,2026-10-29
-18,2,Drill Rig,DRI-856,87T,active,2026-07-13,2026-09-17
-19,2,Crusher,CRU-235,91T,active,2026-05-19,2026-09-22
-20,2,Dumper,DUM-359,34T,maintenance,2026-06-20,2026-09-21
-21,2,Bulldozer,BUL-613,55T,active,2026-06-24,2026-10-11
-22,2,Loader,LOA-136,97T,maintenance,2026-05-11,2026-09-16
-23,2,Loader,LOA-553,55T,active,2026-06-09,2026-10-07
-24,2,Loader,LOA-645,89T,active,2026-06-14,2026-10-11
-25,3,Crusher,CRU-162,15T,active,2026-07-06,2026-09-15
-26,3,Dumper,DUM-777,72T,maintenance,2026-06-08,2026-10-27
-27,3,Dumper,DUM-961,13T,active,2026-07-05,2026-09-22
-28,3,Bulldozer,BUL-694,21T,active,2026-05-25,2026-10-30
-29,3,Excavator,EXC-542,29T,active,2026-07-26,2026-10-03
-30,3,Crusher,CRU-862,78T,active,2026-07-02,2026-10-08
-31,3,Dumper,DUM-373,52T,active,2026-06-06,2026-09-30
-32,3,Bulldozer,BUL-201,95T,maintenance,2026-06-29,2026-10-07
-33,3,Drill Rig,DRI-911,38T,active,2026-07-21,2026-10-23
-34,3,Dumper,DUM-462,79T,active,2026-05-19,2026-10-01
-35,3,Crusher,CRU-621,31T,active,2026-07-06,2026-09-12
-36,3,Crusher,CRU-409,62T,active,2026-05-23,2026-09-20
-37,3,Drill Rig,DRI-424,100T,active,2026-06-15,2026-10-20
-38,3,Loader,LOA-269,81T,active,2026-06-10,2026-09-07
-39,3,Bulldozer,BUL-960,67T,active,2026-07-06,2026-10-28
-40,4,Loader,LOA-663,44T,active,2026-07-26,2026-09-26
-41,4,Crusher,CRU-796,72T,active,2026-05-29,2026-10-28
-42,4,Loader,LOA-198,24T,active,2026-06-29,2026-10-06
-43,4,Loader,LOA-138,47T,active,2026-05-12,2026-10-29
-44,4,Loader,LOA-635,18T,active,2026-05-27,2026-09-08
-45,4,Loader,LOA-677,70T,active,2026-05-18,2026-10-11
-46,4,Dumper,DUM-387,59T,active,2026-07-16,2026-10-31
-47,4,Crusher,CRU-558,98T,active,2026-06-29,2026-10-05
-48,4,Excavator,EXC-229,90T,active,2026-07-12,2026-09-22
-49,4,Dumper,DUM-489,43T,active,2026-07-06,2026-10-01
-50,4,Drill Rig,DRI-910,39T,active,2026-06-13,2026-09-10
-51,4,Dumper,DUM-870,43T,active,2026-05-31,2026-09-23
-52,4,Crusher,CRU-551,55T,active,2026-05-31,2026-09-26
-53,5,Bulldozer,BUL-481,82T,idle,2026-05-03,2026-10-01
-54,5,Loader,LOA-170,98T,active,2026-06-22,2026-09-16
-55,5,Excavator,EXC-654,12T,active,2026-05-20,2026-10-27
-56,5,Excavator,EXC-222,75T,idle,2026-07-19,2026-09-12
-57,5,Dumper,DUM-351,78T,active,2026-06-05,2026-09-08
-58,5,Drill Rig,DRI-940,30T,idle,2026-07-13,2026-10-29
-59,5,Dumper,DUM-636,89T,active,2026-07-18,2026-10-01
-60,5,Dumper,DUM-966,63T,active,2026-06-13,2026-10-16
-61,5,Drill Rig,DRI-522,39T,idle,2026-05-03,2026-10-17
-62,5,Bulldozer,BUL-460,64T,active,2026-06-25,2026-10-22
-63,6,Crusher,CRU-768,58T,active,2026-07-08,2026-10-21
-64,6,Drill Rig,DRI-853,25T,active,2026-06-04,2026-09-18
-65,6,Loader,LOA-464,91T,active,2026-07-03,2026-10-04
-66,6,Dumper,DUM-385,61T,active,2026-06-05,2026-10-09
-67,6,Crusher,CRU-297,96T,active,2026-05-18,2026-10-04
-68,6,Loader,LOA-165,19T,active,2026-06-25,2026-09-18
-69,6,Dumper,DUM-965,52T,active,2026-05-03,2026-09-12
-70,6,Bulldozer,BUL-964,29T,maintenance,2026-06-14,2026-10-28
-71,6,Crusher,CRU-522,26T,active,2026-05-03,2026-10-30
-72,6,Loader,LOA-857,89T,breakdown,2026-07-16,2026-09-16
-73,6,Excavator,EXC-876,42T,active,2026-05-16,2026-09-17
-74,6,Crusher,CRU-504,87T,idle,2026-07-09,2026-10-15
-75,6,Excavator,EXC-694,30T,breakdown,2026-07-01,2026-09-13
-76,6,Dumper,DUM-288,19T,active,2026-06-10,2026-09-13
-77,7,Drill Rig,DRI-172,44T,maintenance,2026-05-30,2026-10-09
-78,7,Crusher,CRU-105,46T,idle,2026-06-12,2026-09-17
-79,7,Loader,LOA-247,46T,active,2026-06-01,2026-10-18
-80,7,Dumper,DUM-291,18T,active,2026-07-14,2026-09-25
-81,7,Crusher,CRU-191,55T,active,2026-07-13,2026-09-29
-82,7,Loader,LOA-694,81T,active,2026-06-02,2026-09-23
-83,7,Excavator,EXC-423,81T,active,2026-05-30,2026-10-07
-84,7,Bulldozer,BUL-891,97T,idle,2026-07-16,2026-10-03
-85,7,Dumper,DUM-625,75T,active,2026-05-20,2026-10-09
-86,7,Crusher,CRU-537,95T,active,2026-07-25,2026-09-07
-87,8,Drill Rig,DRI-968,95T,active,2026-05-15,2026-10-13
-88,8,Loader,LOA-419,49T,active,2026-05-23,2026-09-28
-89,8,Drill Rig,DRI-526,53T,active,2026-07-04,2026-09-16
-90,8,Bulldozer,BUL-351,44T,active,2026-06-30,2026-10-14
-91,8,Drill Rig,DRI-566,35T,active,2026-06-08,2026-09-08
-92,8,Excavator,EXC-662,74T,active,2026-06-26,2026-10-04
-93,8,Crusher,CRU-795,21T,active,2026-05-03,2026-10-18
-94,8,Drill Rig,DRI-433,39T,active,2026-06-30,2026-10-03
-95,8,Drill Rig,DRI-878,10T,active,2026-05-20,2026-10-04
-96,8,Bulldozer,BUL-479,54T,active,2026-07-24,2026-09-15
-97,8,Loader,LOA-119,82T,active,2026-05-09,2026-10-29
-98,8,Loader,LOA-136,91T,active,2026-06-24,2026-09-29
-99,8,Bulldozer,BUL-614,72T,idle,2026-05-29,2026-10-18
-100,8,Drill Rig,DRI-214,50T,active,2026-05-19,2026-10-03
-101,8,Drill Rig,DRI-436,71T,active,2026-05-25,2026-09-24
-102,9,Crusher,CRU-708,41T,active,2026-07-19,2026-10-05
-103,9,Crusher,CRU-383,69T,active,2026-07-21,2026-10-22
-104,9,Bulldozer,BUL-196,45T,active,2026-05-05,2026-10-10
-105,9,Excavator,EXC-216,92T,active,2026-05-23,2026-10-31
-106,9,Bulldozer,BUL-395,80T,idle,2026-05-06,2026-10-19
-107,9,Bulldozer,BUL-525,45T,active,2026-06-29,2026-09-14
-108,9,Crusher,CRU-327,79T,active,2026-05-11,2026-10-31
-109,9,Dumper,DUM-708,24T,active,2026-06-10,2026-09-21
-110,9,Crusher,CRU-188,95T,active,2026-05-06,2026-09-11
-111,9,Loader,LOA-328,81T,breakdown,2026-06-11,2026-10-15
-112,9,Loader,LOA-269,87T,active,2026-07-26,2026-09-12
-113,9,Dumper,DUM-858,33T,active,2026-07-23,2026-09-14
-114,9,Bulldozer,BUL-799,96T,active,2026-05-21,2026-10-30
-115,9,Loader,LOA-113,42T,idle,2026-07-17,2026-09-14
-116,9,Excavator,EXC-196,22T,active,2026-06-25,2026-10-01
+1,1,Hydraulic Excavator,Tata Hitachi EX200,65T-90T,active,2026-06-11,2026-09-22
+2,1,Wheel Loader,CAT 966L,25T,active,2026-06-18,2026-10-08
+3,1,Hydraulic Excavator,CAT 390F (3.9 m³),65T-90T,idle,2026-06-14,2026-09-25
+4,1,Blast Hole Drill Rig,Epiroc DM30 (150mm),15m depth,active,2026-07-01,2026-09-23
+5,1,Blast Hole Drill Rig,Atlas Copco ROC D7,15m depth,active,2026-07-30,2026-10-06
+6,1,Mobile Secondary Crusher,Terex Finlay J-1175,250 TPH,active,2026-06-09,2026-09-11
+7,1,Blast Hole Drill Rig,Atlas Copco ROC D7,15m depth,active,2026-07-30,2026-09-19
+8,1,Wheel Loader,CAT 966L,25T,idle,2026-08-01,2026-10-15
+9,1,Heavy Bulldozer,BEML BD155 (324 HP),38T,active,2026-06-19,2026-10-10
+10,1,Blast Hole Drill Rig,Epiroc DM30 (150mm),15m depth,active,2026-06-20,2026-10-16
+11,1,Wheel Loader,CAT 966L,25T,active,2026-06-21,2026-09-21
+12,1,Wheel Loader,Volvo L180H (4.5 m³),25T,active,2026-06-28,2026-09-30
+13,1,Hydraulic Excavator,Tata Hitachi EX200,65T-90T,idle,2026-07-06,2026-10-08
+14,1,Heavy Dump Truck,Volvo FMX 460 Tipper (31T),35T-50T,active,2026-07-02,2026-10-08
+15,1,Heavy Bulldozer,CAT D8T,38T,active,2026-07-05,2026-10-16
+16,2,Load Haul Dumper (LHD),Sandvik LH203,3.5T Payload,active,2026-06-05,2026-10-11
+17,2,Drill Jumbo,Sandvik DD210,3.2m feed,idle,2026-06-29,2026-09-18
+18,2,Mine Ventilation Fan,Fläkt Woods Master Fan,120 m³/s,active,2026-06-19,2026-10-04
+19,2,Mine Ventilation Fan,Fläkt Woods Master Fan,120 m³/s,breakdown,2026-08-08,2026-10-07
+20,2,Main Dewatering Pump,Kirloskar High-Head Multi-stage 250HP,150 m³/hr,active,2026-06-08,2026-09-10
+21,2,Load Haul Dumper (LHD),Epiroc Scooptram ST2G (2.0 m³),3.5T Payload,active,2026-06-22,2026-09-30
+22,2,Side Dump Loader (SDL),Eimco Elecon 611,1.0 m³ Bucket,active,2026-07-06,2026-10-07
+23,2,Main Dewatering Pump,Kirloskar High-Head Multi-stage 250HP,150 m³/hr,active,2026-08-07,2026-09-09
+24,2,Shaft Winder Hoist,Siemens-Bharat 1200kW Double Drum,120 TPH,active,2026-06-22,2026-10-02
+25,2,Load Haul Dumper (LHD),Epiroc Scooptram ST2G (2.0 m³),3.5T Payload,active,2026-08-09,2026-09-09
+26,2,Side Dump Loader (SDL),Eimco Elecon 611,1.0 m³ Bucket,active,2026-07-08,2026-09-20
+27,2,Drill Jumbo,Sandvik DD210,3.2m feed,active,2026-07-21,2026-10-09
+28,2,Main Dewatering Pump,KSB Multitec 180kW,150 m³/hr,active,2026-06-24,2026-09-30
+29,2,Load Haul Dumper (LHD),Epiroc Scooptram ST2G (2.0 m³),3.5T Payload,active,2026-07-28,2026-09-08
+30,2,Load Haul Dumper (LHD),Epiroc Scooptram ST2G (2.0 m³),3.5T Payload,active,2026-07-22,2026-09-26
+31,2,Drill Jumbo,Boomer 282 Twin Boom,3.2m feed,active,2026-06-16,2026-09-26
+32,2,Shaft Winder Hoist,Siemens-Bharat 1200kW Double Drum,120 TPH,active,2026-07-14,2026-10-10
+33,2,Side Dump Loader (SDL),Eimco Elecon 611,1.0 m³ Bucket,active,2026-07-01,2026-10-05
+34,3,Load Haul Dumper (LHD),Epiroc Scooptram ST2G (2.0 m³),3.5T Payload,active,2026-07-18,2026-09-15
+35,3,Drill Jumbo,Sandvik DD210,3.2m feed,maintenance,2026-07-14,2026-10-07
+36,3,Side Dump Loader (SDL),BEML SDL 1000,1.0 m³ Bucket,active,2026-07-22,2026-09-22
+37,3,Side Dump Loader (SDL),Eimco Elecon 611,1.0 m³ Bucket,active,2026-06-19,2026-09-22
+38,3,Load Haul Dumper (LHD),Sandvik LH203,3.5T Payload,active,2026-08-02,2026-10-14
+39,3,Side Dump Loader (SDL),Eimco Elecon 611,1.0 m³ Bucket,active,2026-07-19,2026-10-14
+40,3,Load Haul Dumper (LHD),Epiroc Scooptram ST2G (2.0 m³),3.5T Payload,idle,2026-06-02,2026-10-11
+41,3,Shaft Winder Hoist,ABB Friction Hoist,120 TPH,active,2026-07-31,2026-09-22
+42,3,Shaft Winder Hoist,ABB Friction Hoist,120 TPH,active,2026-07-11,2026-09-21
+43,3,Side Dump Loader (SDL),Eimco Elecon 611,1.0 m³ Bucket,active,2026-06-19,2026-10-05
+44,3,Main Dewatering Pump,KSB Multitec 180kW,150 m³/hr,active,2026-07-29,2026-09-18
+45,3,Side Dump Loader (SDL),Eimco Elecon 611,1.0 m³ Bucket,active,2026-06-14,2026-10-10
+46,3,Side Dump Loader (SDL),Eimco Elecon 611,1.0 m³ Bucket,active,2026-08-04,2026-09-21
+47,3,Load Haul Dumper (LHD),Sandvik LH203,3.5T Payload,active,2026-06-18,2026-09-11
+48,3,Load Haul Dumper (LHD),Sandvik LH203,3.5T Payload,active,2026-07-31,2026-09-14
+49,3,Mine Ventilation Fan,Voltas 200kW Axial Flow Fan,120 m³/s,active,2026-06-01,2026-09-30
+50,3,Shaft Winder Hoist,Siemens-Bharat 1200kW Double Drum,120 TPH,active,2026-06-27,2026-10-11
+51,3,Shaft Winder Hoist,Siemens-Bharat 1200kW Double Drum,120 TPH,idle,2026-07-12,2026-09-19
+52,4,Heavy Dump Truck,Volvo FMX 460 Tipper (31T),35T-50T,active,2026-08-02,2026-09-22
+53,4,Hydraulic Excavator,Tata Hitachi EX200,65T-90T,active,2026-06-17,2026-10-08
+54,4,Heavy Dump Truck,Volvo FMX 460 Tipper (31T),35T-50T,active,2026-07-21,2026-09-14
+55,4,Mobile Secondary Crusher,Terex Finlay J-1175,250 TPH,active,2026-08-01,2026-10-09
+56,4,Hydraulic Excavator,Komatsu PC400-8 (2.2 m³),65T-90T,active,2026-07-10,2026-09-28
+57,4,Wheel Loader,Volvo L180H (4.5 m³),25T,active,2026-06-10,2026-09-12
+58,4,Wheel Loader,Volvo L180H (4.5 m³),25T,active,2026-08-03,2026-10-02
+59,4,Hydraulic Excavator,CAT 390F (3.9 m³),65T-90T,active,2026-07-13,2026-09-12
+60,4,Mobile Secondary Crusher,Metso Lokotrack LT120,250 TPH,active,2026-08-05,2026-09-18
+61,4,Wheel Loader,Volvo L180H (4.5 m³),25T,active,2026-06-03,2026-10-13
+62,4,Heavy Bulldozer,BEML BD155 (324 HP),38T,active,2026-06-30,2026-10-15
+63,4,Heavy Bulldozer,BEML BD155 (324 HP),38T,active,2026-07-06,2026-10-14
+64,4,Mobile Secondary Crusher,Terex Finlay J-1175,250 TPH,active,2026-08-06,2026-09-22
+65,4,Wheel Loader,CAT 966L,25T,active,2026-07-09,2026-10-12
+66,4,Heavy Bulldozer,CAT D8T,38T,active,2026-07-15,2026-10-16
+67,5,Mine Ventilation Fan,Fläkt Woods Master Fan,120 m³/s,active,2026-06-01,2026-10-11
+68,5,Load Haul Dumper (LHD),Sandvik LH203,3.5T Payload,active,2026-07-16,2026-09-15
+69,5,Main Dewatering Pump,Kirloskar High-Head Multi-stage 250HP,150 m³/hr,active,2026-08-04,2026-09-18
+70,5,Side Dump Loader (SDL),BEML SDL 1000,1.0 m³ Bucket,active,2026-06-14,2026-09-19
+71,5,Main Dewatering Pump,KSB Multitec 180kW,150 m³/hr,active,2026-07-24,2026-10-14
+72,5,Drill Jumbo,Sandvik DD210,3.2m feed,active,2026-08-04,2026-09-25
+73,5,Drill Jumbo,Boomer 282 Twin Boom,3.2m feed,idle,2026-06-20,2026-09-27
+74,5,Shaft Winder Hoist,ABB Friction Hoist,120 TPH,active,2026-06-18,2026-09-12
+75,5,Drill Jumbo,Boomer 282 Twin Boom,3.2m feed,active,2026-07-09,2026-09-24
+76,5,Main Dewatering Pump,Kirloskar High-Head Multi-stage 250HP,150 m³/hr,active,2026-07-09,2026-09-28
+77,5,Main Dewatering Pump,KSB Multitec 180kW,150 m³/hr,active,2026-07-27,2026-09-18
+78,5,Mine Ventilation Fan,Voltas 200kW Axial Flow Fan,120 m³/s,active,2026-06-17,2026-09-16
+79,5,Shaft Winder Hoist,Siemens-Bharat 1200kW Double Drum,120 TPH,active,2026-06-14,2026-09-24
+80,5,Drill Jumbo,Boomer 282 Twin Boom,3.2m feed,active,2026-08-02,2026-10-03
+81,5,Side Dump Loader (SDL),BEML SDL 1000,1.0 m³ Bucket,active,2026-07-15,2026-09-25
+82,5,Side Dump Loader (SDL),BEML SDL 1000,1.0 m³ Bucket,active,2026-07-17,2026-10-06
+83,5,Main Dewatering Pump,Kirloskar High-Head Multi-stage 250HP,150 m³/hr,active,2026-08-03,2026-09-19
+84,6,Hydraulic Excavator,Tata Hitachi EX200,65T-90T,active,2026-07-27,2026-10-16
+85,6,Hydraulic Excavator,Tata Hitachi EX200,65T-90T,active,2026-06-10,2026-10-10
+86,6,Heavy Dump Truck,Caterpillar 773E (50T),35T-50T,maintenance,2026-06-20,2026-10-10
+87,6,Mobile Secondary Crusher,Terex Finlay J-1175,250 TPH,active,2026-07-01,2026-09-25
+88,6,Blast Hole Drill Rig,Atlas Copco ROC D7,15m depth,active,2026-06-01,2026-09-15
+89,6,Wheel Loader,CAT 966L,25T,maintenance,2026-06-16,2026-10-08
+90,6,Heavy Dump Truck,BEML BH35-2 (35T),35T-50T,active,2026-06-14,2026-09-21
+91,6,Heavy Dump Truck,Caterpillar 773E (50T),35T-50T,active,2026-08-10,2026-10-11
+92,6,Wheel Loader,CAT 966L,25T,active,2026-07-06,2026-10-08
+93,6,Heavy Dump Truck,Volvo FMX 460 Tipper (31T),35T-50T,idle,2026-07-13,2026-09-19
+94,6,Heavy Bulldozer,BEML BD155 (324 HP),38T,active,2026-07-25,2026-10-03
+95,6,Heavy Dump Truck,Volvo FMX 460 Tipper (31T),35T-50T,active,2026-06-23,2026-09-26
+96,6,Mobile Secondary Crusher,Metso Lokotrack LT120,250 TPH,active,2026-07-16,2026-09-12
+97,6,Blast Hole Drill Rig,Epiroc DM30 (150mm),15m depth,active,2026-06-10,2026-09-22
+98,6,Hydraulic Excavator,Komatsu PC400-8 (2.2 m³),65T-90T,active,2026-06-26,2026-09-10
+99,6,Heavy Bulldozer,CAT D8T,38T,active,2026-07-14,2026-10-11
+100,6,Heavy Dump Truck,Volvo FMX 460 Tipper (31T),35T-50T,active,2026-06-26,2026-09-19
+101,6,Hydraulic Excavator,Komatsu PC400-8 (2.2 m³),65T-90T,active,2026-06-15,2026-09-08
+102,7,Heavy Dump Truck,BEML BH35-2 (35T),35T-50T,idle,2026-07-13,2026-10-11
+103,7,Hydraulic Excavator,Tata Hitachi EX200,65T-90T,active,2026-08-03,2026-09-26
+104,7,Hydraulic Excavator,Komatsu PC400-8 (2.2 m³),65T-90T,active,2026-06-10,2026-10-07
+105,7,Wheel Loader,CAT 966L,25T,active,2026-06-03,2026-10-03
+106,7,Wheel Loader,CAT 966L,25T,active,2026-06-09,2026-09-12
+107,7,Heavy Dump Truck,Volvo FMX 460 Tipper (31T),35T-50T,active,2026-06-06,2026-09-20
+108,7,Hydraulic Excavator,Tata Hitachi EX200,65T-90T,maintenance,2026-08-08,2026-09-16
+109,7,Wheel Loader,Volvo L180H (4.5 m³),25T,idle,2026-07-30,2026-09-30
+110,7,Heavy Bulldozer,CAT D8T,38T,active,2026-07-24,2026-10-04
+111,7,Heavy Bulldozer,BEML BD155 (324 HP),38T,active,2026-07-11,2026-10-16
+112,7,Blast Hole Drill Rig,Epiroc DM30 (150mm),15m depth,active,2026-06-15,2026-09-12
+113,7,Blast Hole Drill Rig,Epiroc DM30 (150mm),15m depth,active,2026-06-26,2026-09-25
+114,7,Heavy Dump Truck,Volvo FMX 460 Tipper (31T),35T-50T,active,2026-06-26,2026-09-27
+115,7,Heavy Dump Truck,Volvo FMX 460 Tipper (31T),35T-50T,active,2026-06-06,2026-09-19
+116,7,Mobile Secondary Crusher,Metso Lokotrack LT120,250 TPH,active,2026-08-04,2026-09-12
+117,8,Drill Jumbo,Sandvik DD210,3.2m feed,active,2026-07-08,2026-09-14
+118,8,Shaft Winder Hoist,Siemens-Bharat 1200kW Double Drum,120 TPH,active,2026-07-20,2026-09-24
+119,8,Drill Jumbo,Boomer 282 Twin Boom,3.2m feed,active,2026-06-05,2026-10-07
+120,8,Load Haul Dumper (LHD),Epiroc Scooptram ST2G (2.0 m³),3.5T Payload,maintenance,2026-07-09,2026-09-12
+121,8,Mine Ventilation Fan,Voltas 200kW Axial Flow Fan,120 m³/s,maintenance,2026-07-12,2026-09-15
+122,8,Drill Jumbo,Sandvik DD210,3.2m feed,active,2026-07-09,2026-10-04
+123,8,Mine Ventilation Fan,Voltas 200kW Axial Flow Fan,120 m³/s,maintenance,2026-07-01,2026-09-18
+124,8,Side Dump Loader (SDL),Eimco Elecon 611,1.0 m³ Bucket,active,2026-07-12,2026-09-20
+125,8,Main Dewatering Pump,KSB Multitec 180kW,150 m³/hr,active,2026-07-31,2026-09-24
+126,8,Main Dewatering Pump,KSB Multitec 180kW,150 m³/hr,idle,2026-07-06,2026-09-13
+127,8,Load Haul Dumper (LHD),Sandvik LH203,3.5T Payload,active,2026-07-05,2026-10-14
+128,8,Drill Jumbo,Boomer 282 Twin Boom,3.2m feed,active,2026-08-07,2026-09-13
+129,8,Main Dewatering Pump,Kirloskar High-Head Multi-stage 250HP,150 m³/hr,maintenance,2026-06-20,2026-10-07
+130,8,Drill Jumbo,Boomer 282 Twin Boom,3.2m feed,breakdown,2026-07-18,2026-09-09
+131,8,Side Dump Loader (SDL),Eimco Elecon 611,1.0 m³ Bucket,active,2026-06-10,2026-10-04
+132,9,Heavy Bulldozer,BEML BD155 (324 HP),38T,active,2026-07-04,2026-10-10
+133,9,Wheel Loader,Volvo L180H (4.5 m³),25T,active,2026-06-09,2026-09-27
+134,9,Heavy Dump Truck,BEML BH35-2 (35T),35T-50T,active,2026-07-27,2026-09-18
+135,9,Heavy Dump Truck,BEML BH35-2 (35T),35T-50T,active,2026-06-25,2026-09-12
+136,9,Heavy Bulldozer,CAT D8T,38T,maintenance,2026-07-18,2026-09-26
+137,9,Blast Hole Drill Rig,Epiroc DM30 (150mm),15m depth,active,2026-07-13,2026-09-22
+138,9,Blast Hole Drill Rig,Epiroc DM30 (150mm),15m depth,active,2026-07-28,2026-10-10
+139,9,Heavy Bulldozer,BEML BD155 (324 HP),38T,active,2026-06-21,2026-09-25
+140,9,Hydraulic Excavator,Tata Hitachi EX200,65T-90T,active,2026-07-01,2026-09-29
+141,9,Mobile Secondary Crusher,Metso Lokotrack LT120,250 TPH,active,2026-07-08,2026-10-08
+142,9,Wheel Loader,Volvo L180H (4.5 m³),25T,active,2026-06-08,2026-09-10
+143,9,Heavy Dump Truck,Volvo FMX 460 Tipper (31T),35T-50T,active,2026-06-29,2026-10-01
+144,9,Wheel Loader,CAT 966L,25T,active,2026-06-05,2026-10-08
+145,9,Hydraulic Excavator,Komatsu PC400-8 (2.2 m³),65T-90T,idle,2026-06-08,2026-09-24
+146,9,Hydraulic Excavator,Komatsu PC400-8 (2.2 m³),65T-90T,active,2026-07-09,2026-09-30
+147,9,Hydraulic Excavator,Tata Hitachi EX200,65T-90T,active,2026-06-02,2026-09-26
+148,9,Heavy Dump Truck,Volvo FMX 460 Tipper (31T),35T-50T,active,2026-07-29,2026-09-17

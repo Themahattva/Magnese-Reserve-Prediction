@@ -1,10 +1,10 @@
-id,name,latitude,longitude,district,state,mine_type,area_hectares,elevation_m,year_established,is_active
-1,Dongri Buzurg,21.548660,79.682890,Bhandara,Maharashtra,opencast,285,310,1962,True
-2,Balaghat,21.849722,80.226667,Balaghat,Madhya Pradesh,underground,420,380,1956,True
-3,Chikla,21.543056,79.753889,Nagpur,Maharashtra,opencast,180,290,1970,True
-4,Munsar,21.401389,79.280833,Nagpur,Maharashtra,opencast,210,320,1965,True
-5,Kandri,21.411667,79.266111,Nagpur,Maharashtra,underground,310,280,1958,True
-6,Gumgaon,21.400000,78.983333,Nagpur,Maharashtra,opencast,155,305,1972,True
-7,Parsioni,21.4,79.22,Nagpur,Maharashtra,opencast,120,275,1978,True
-8,Sitapatore,21.666667,79.666667,Balaghat,Madhya Pradesh,underground,190,410,1960,True
-9,Tirodi,21.683056,79.733056,Balaghat,Madhya Pradesh,mixed,240,350,1968,True
+id,name,latitude,longitude,district,state,mine_type,area_hectares,elevation_m,year_established,annual_capacity_tonnes,avg_target_grade_percent,primary_product,is_active
+1,Dongri Buzurg,21.54866,79.68289,Bhandara,Maharashtra,opencast,285,310,1962,410000,41.5,High-Grade Manganese Dioxide (EMD / Battery Grade),True
+2,Balaghat,21.849722,80.226667,Balaghat,Madhya Pradesh,underground,420,380,1956,580000,43.8,"High-Grade Ferro-Manganese Ore (Deepest Underground Mine, 400m+ Shaft)",True
+3,Chikla,21.543056,79.753889,Bhandara,Maharashtra,underground,180,290,1970,240000,42.0,Medium-to-High Grade Ferro-Manganese (Twin Vertical Shafts),True
+4,Munsar,21.401389,79.280833,Nagpur,Maharashtra,opencast,210,320,1965,165000,36.5,Silico-Manganese Grade Ore (Open Pit & Incline),True
+5,Kandri,21.411667,79.266111,Nagpur,Maharashtra,underground,310,280,1958,225000,39.2,Metallurgical Grade Manganese Ore (Underground),True
+6,Gumgaon,21.4,78.983333,Nagpur,Maharashtra,opencast,155,305,1972,140000,37.0,Silico-Manganese Grade Ore,True
+7,Parsioni,21.4,79.22,Nagpur,Maharashtra,opencast,120,275,1978,90000,41.2,High-Grade Silico & Ferro Blend,True
+8,Sitapatore,21.666667,79.666667,Balaghat,Madhya Pradesh,underground,190,410,1960,65000,34.8,Blast Furnace Grade Manganese Ore,True
+9,Tirodi,21.683056,79.733056,Balaghat,Madhya Pradesh,mixed,240,350,1968,120000,38.6,Medium Grade Metallurgical Ore (Mixed Surface & Shaft),True

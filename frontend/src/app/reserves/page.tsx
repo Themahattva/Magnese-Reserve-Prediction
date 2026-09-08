@@ -11,6 +11,18 @@ type LeafletIconDefault = typeof import('leaflet').Icon.Default & {
   prototype: import('leaflet').Icon.Default & { _getIconUrl?: unknown };
 };
 
+const MINE_LOCATIONS: Record<number, { lat: number; lon: number; name: string; district: string; state: string }> = {
+  1: { lat: 21.548660, lon: 79.682890, name: "Dongri Buzurg", district: "Bhandara", state: "Maharashtra" },
+  2: { lat: 21.849722, lon: 80.226667, name: "Balaghat", district: "Balaghat", state: "Madhya Pradesh" },
+  3: { lat: 21.543056, lon: 79.753889, name: "Chikla", district: "Bhandara", state: "Maharashtra" },
+  4: { lat: 21.401389, lon: 79.280833, name: "Munsar", district: "Nagpur", state: "Maharashtra" },
+  5: { lat: 21.411667, lon: 79.266111, name: "Kandri", district: "Nagpur", state: "Maharashtra" },
+  6: { lat: 21.400000, lon: 78.983333, name: "Gumgaon", district: "Nagpur", state: "Maharashtra" },
+  7: { lat: 21.400000, lon: 79.220000, name: "Parsioni", district: "Nagpur", state: "Maharashtra" },
+  8: { lat: 21.666667, lon: 79.666667, name: "Sitapatore", district: "Balaghat", state: "Madhya Pradesh" },
+  9: { lat: 21.683056, lon: 79.733056, name: "Tirodi", district: "Balaghat", state: "Madhya Pradesh" },
+};
+
 export default function ReservesPage() {
   const [summary, setSummary] = useState<ReserveSummary[]>([]);
   const [blocks, setBlocks] = useState<ReserveBlock[]>([]);
@@ -33,32 +45,32 @@ export default function ReservesPage() {
         setBlocks(blockData);
         setDrillLogs(logData);
       } catch {
-        // Fallback data
+        // Fallback data for all 9 MOIL mines
         setSummary([
           { mine_id: 1, mine_name: "Dongri Buzurg", total_estimated_tonnage: 28500000, avg_grade: 40.2, avg_confidence: 0.87, num_blocks: 24 },
           { mine_id: 2, mine_name: "Balaghat", total_estimated_tonnage: 35200000, avg_grade: 38.5, avg_confidence: 0.82, num_blocks: 31 },
           { mine_id: 3, mine_name: "Chikla", total_estimated_tonnage: 18700000, avg_grade: 42.1, avg_confidence: 0.91, num_blocks: 16 },
           { mine_id: 4, mine_name: "Munsar", total_estimated_tonnage: 12300000, avg_grade: 36.8, avg_confidence: 0.75, num_blocks: 12 },
           { mine_id: 5, mine_name: "Kandri", total_estimated_tonnage: 22100000, avg_grade: 39.4, avg_confidence: 0.84, num_blocks: 20 },
+          { mine_id: 6, mine_name: "Gumgaon", total_estimated_tonnage: 15800000, avg_grade: 37.2, avg_confidence: 0.79, num_blocks: 14 },
+          { mine_id: 7, mine_name: "Parsioni", total_estimated_tonnage: 9400000, avg_grade: 41.5, avg_confidence: 0.88, num_blocks: 8 },
+          { mine_id: 8, mine_name: "Sitapatore", total_estimated_tonnage: 5200000, avg_grade: 34.9, avg_confidence: 0.71, num_blocks: 6 },
+          { mine_id: 9, mine_name: "Tirodi", total_estimated_tonnage: 11600000, avg_grade: 38.8, avg_confidence: 0.83, num_blocks: 10 },
         ]);
 
-        const mineCenters: Record<number, [number, number]> = {
-          1: [21.548660, 79.682890], 2: [21.849722, 80.226667], 3: [21.543056, 79.753889],
-          4: [21.401389, 79.280833], 5: [21.411667, 79.266111],
-        };
-        const targetMines = selectedMine ? [selectedMine] : [1, 2, 3, 4, 5];
+        const targetMines = selectedMine ? [selectedMine] : [1, 2, 3, 4, 5, 6, 7, 8, 9];
         const demoBlocks: ReserveBlock[] = [];
         const demoLogs: DrillLog[] = [];
 
         targetMines.forEach((mId) => {
-          const center = mineCenters[mId] || [21.5, 79.5];
+          const loc = MINE_LOCATIONS[mId] || { lat: 21.5, lon: 79.5 };
           const offsets = [
             [-0.015, -0.015], [0.012, 0.015], [-0.01, 0.02],
             [0.018, -0.01], [0.005, 0.005], [-0.02, 0.008]
           ];
           offsets.forEach((off, idx) => {
-            const clat = center[0] + off[0];
-            const clon = center[1] + off[1];
+            const clat = loc.lat + off[0];
+            const clon = loc.lon + off[1];
             const s = 0.008;
             demoBlocks.push({
               id: mId * 100 + idx,
@@ -147,11 +159,60 @@ export default function ReservesPage() {
     };
   }, []);
 
+  // Pan and zoom map when selected mine changes
+  useEffect(() => {
+    if (!mapInstanceRef.current) return;
+    if (selectedMine && MINE_LOCATIONS[selectedMine]) {
+      const { lat, lon } = MINE_LOCATIONS[selectedMine];
+      mapInstanceRef.current.flyTo([lat, lon], 13, { duration: 1.2 });
+    } else {
+      mapInstanceRef.current.flyTo([21.55, 79.6], 8, { duration: 1.2 });
+    }
+  }, [selectedMine]);
+
   // Update map layers when data changes
   useEffect(() => {
     if (!L || !layerGroupRef.current) return;
     const layerGroup = layerGroupRef.current;
     layerGroup.clearLayers();
+
+    // Render Mine Location Pins
+    Object.entries(MINE_LOCATIONS).forEach(([idStr, mine]) => {
+      const mId = Number(idStr);
+      if (selectedMine && selectedMine !== mId) return;
+
+      const markerIcon = L!.divIcon({
+        className: 'mine-head-marker',
+        html: `
+          <div style="
+            display: inline-flex; align-items: center; gap: 5px;
+            background: rgba(3, 7, 4, 0.92); border: 1.5px solid #00ff66;
+            color: #00ff66; font-family: 'JetBrains Mono', monospace; font-size: 0.70rem;
+            font-weight: 700; padding: 3px 8px; border-radius: 4px;
+            box-shadow: 0 0 12px rgba(0,255,102,0.5), 0 2px 8px rgba(0,0,0,0.8);
+            white-space: nowrap; transform: translate(-50%, -100%); cursor: pointer;
+          ">
+            <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#00ff66;box-shadow:0 0 8px #00ff66;"></span>
+            <span>⛏️ ${mine.name.toUpperCase()}</span>
+          </div>
+        `,
+        iconSize: [0, 0],
+        iconAnchor: [0, 0],
+      });
+
+      const m = L!.marker([mine.lat, mine.lon], { icon: markerIcon });
+      m.bindPopup(`
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;">
+          <strong style="color: #00ff66; font-size: 0.85rem;">&gt; ${mine.name.toUpperCase()} MINE</strong>
+          <div style="margin-top: 6px; color: #74bf85; line-height: 1.5;">
+            <div>LOCATION: <b style="color: #d4ffd4;">${mine.district}, ${mine.state}</b></div>
+            <div>COORDINATES: <span style="color: #d4ffd4; font-family: monospace;">${mine.lat.toFixed(6)}°N, ${mine.lon.toFixed(6)}°E</span></div>
+            <div>GEOLOGY: <span style="color: #74bf85;">Sausar Manganese Belt (Mansar Fm)</span></div>
+          </div>
+        </div>
+      `);
+      layerGroup.addLayer(m);
+    });
 
     if (activeLayer === 'reserves' || activeLayer === 'all') {
       blocks.forEach((block) => {
@@ -208,7 +269,7 @@ export default function ReservesPage() {
         layerGroup.addLayer(marker);
       });
     }
-  }, [blocks, drillLogs, activeLayer]);
+  }, [blocks, drillLogs, activeLayer, selectedMine]);
 
   const totalReserves = summary.reduce((s, m) => s + m.total_estimated_tonnage, 0);
 
