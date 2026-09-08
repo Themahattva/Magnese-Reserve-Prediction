@@ -11,10 +11,10 @@ interface Props {
 }
 
 const riskColors: Record<string, string> = {
-  low: '#00ff66',
-  medium: '#eab308',
-  high: '#f97316',
-  critical: '#ff2a4b',
+  low: '#1B8A5A',      /* Status Success */
+  medium: '#C77700',   /* Status Warning */
+  high: '#C77700',     /* Status Warning */
+  critical: '#B3261E', /* Status Danger */
 };
 
 export default function MiniMap({ mines }: Props) {
@@ -39,7 +39,6 @@ export default function MiniMap({ mines }: Props) {
     import('leaflet').then((L) => {
       if (!el.isConnected) return;
 
-      // If Leaflet already initialized this element, nuke it
       if (el._leaflet_id) {
         el._leaflet_id = null;
         el.innerHTML = '';
@@ -57,29 +56,28 @@ export default function MiniMap({ mines }: Props) {
 
       // Add mine markers
       mines.forEach((mine) => {
-        const color = riskColors[mine.risk_level] || '#74bf85';
+        const color = riskColors[mine.risk_level] || '#5C6670';
 
         const icon = L.divIcon({
           className: 'custom-marker',
           html: `<div style="
-            width: 16px; height: 16px; border-radius: 2px;
-            background: ${color}; border: 2px solid #030704;
-            box-shadow: 0 0 10px ${color}, 0 2px 8px rgba(0,0,0,0.8);
-            ${mine.risk_level === 'critical' ? 'animation: terminalBlink 1.2s infinite;' : ''}
+            width: 14px; height: 14px; border-radius: 50%;
+            background: ${color}; border: 2px solid #FFFFFF;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.4);
           "></div>`,
-          iconSize: [16, 16],
-          iconAnchor: [8, 8],
+          iconSize: [14, 14],
+          iconAnchor: [7, 7],
         });
 
         L.marker([mine.latitude, mine.longitude], { icon })
           .addTo(currentMap)
           .bindPopup(`
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;">
-              <strong style="font-size: 0.85rem; color: #00ff66;">&gt; ${mine.name.toUpperCase()}</strong>
-              <div style="margin-top: 6px; color: #74bf85; line-height: 1.5;">
-                <div>TELEMETRY: <span style="color: ${color}; font-weight: 700;">${mine.production_percent}%</span></div>
-                <div>RESERVES: <span style="font-weight: 700; color: #d4ffd4;">${mine.estimated_reserves} MT</span></div>
-                <div>STATUS: <span style="color: ${color}; font-weight: 700;">[${mine.risk_level.toUpperCase()}]</span></div>
+            <div class="mine-popup-content" style="font-family: 'Inter', sans-serif; font-size: 0.80rem;">
+              <strong style="font-size: 0.86rem; color: var(--primary, #0B3D6B);">${mine.name.toUpperCase()} MINE</strong>
+              <div style="margin-top: 6px; color: var(--text-secondary, #5C6670); line-height: 1.55;">
+                <div>Production: <span style="color: ${color}; font-weight: 700; font-family: 'JetBrains Mono', monospace;">${mine.production_percent}%</span></div>
+                <div>Reserves: <span style="font-weight: 700; color: var(--text-primary, #1B1F23); font-family: 'JetBrains Mono', monospace;">${mine.estimated_reserves} MT</span></div>
+                <div>Risk Status: <span style="color: ${color}; font-weight: 700;">${mine.risk_level.toUpperCase()}</span></div>
               </div>
             </div>
           `);
@@ -91,7 +89,6 @@ export default function MiniMap({ mines }: Props) {
         map.remove();
         map = null;
       }
-      // Also clean the DOM element
       if (el._leaflet_id) {
         el._leaflet_id = null;
         el.innerHTML = '';
@@ -104,8 +101,9 @@ export default function MiniMap({ mines }: Props) {
       ref={containerRef}
       style={{
         height: '300px',
-        borderRadius: 'var(--radius-md)',
+        borderRadius: '6px',
         overflow: 'hidden',
+        border: '1px solid var(--border-default, #E2E6EA)',
       }}
     />
   );

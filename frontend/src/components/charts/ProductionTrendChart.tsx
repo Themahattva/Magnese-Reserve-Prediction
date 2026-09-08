@@ -1,8 +1,6 @@
 'use client';
 
 import {
-  BarChart,
-  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -11,6 +9,7 @@ import {
   ResponsiveContainer,
   Line,
   ComposedChart,
+  Bar,
   Area,
 } from 'recharts';
 import type { ProductionTrendPoint } from '@/lib/api';
@@ -25,17 +24,17 @@ function CustomTooltip({ active, payload, label }: any) {
   return (
     <div
       style={{
-        background: '#081309',
-        border: '1px solid #00ff66',
-        borderRadius: '4px',
+        background: 'var(--bg-card, #FFFFFF)',
+        border: '1px solid var(--border-default, #E2E6EA)',
+        borderRadius: '6px',
         padding: '12px 16px',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.9), 0 0 15px rgba(0,255,102,0.2)',
-        minWidth: '180px',
-        fontFamily: 'JetBrains Mono, monospace',
+        boxShadow: 'var(--shadow-dropdown, 0 4px 16px rgba(0, 0, 0, 0.15))',
+        minWidth: '190px',
+        fontFamily: 'Inter, sans-serif',
       }}
     >
-      <p style={{ color: '#00ff66', fontSize: '0.74rem', marginBottom: '8px', fontWeight: 600, letterSpacing: '0.05em' }}>
-        &gt; {label}
+      <p style={{ color: 'var(--primary, #0B3D6B)', fontSize: '0.80rem', marginBottom: '8px', fontWeight: 700, letterSpacing: '-0.01em' }}>
+        {label}
       </p>
       {payload.map((entry: any, i: number) => (
         <div
@@ -44,11 +43,14 @@ function CustomTooltip({ active, payload, label }: any) {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginBottom: '4px',
+            marginBottom: '5px',
           }}
         >
-          <span style={{ color: entry.color, fontSize: '0.75rem' }}>{entry.name}</span>
-          <span style={{ color: '#d4ffd4', fontSize: '0.8rem', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '2px', background: entry.color }} />
+            <span style={{ color: 'var(--text-secondary, #5C6670)', fontSize: '0.76rem' }}>{entry.name}</span>
+          </div>
+          <span style={{ color: 'var(--text-primary, #1B1F23)', fontSize: '0.80rem', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>
             {(entry.value / 1000).toFixed(1)}K MT
           </span>
         </div>
@@ -65,47 +67,50 @@ export default function ProductionTrendChart({ data }: Props) {
   return (
     <ResponsiveContainer width="100%" height={300}>
       <ComposedChart data={data} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
-        <CartesianGrid strokeDasharray="2 2" stroke="rgba(0,255,102,0.06)" />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle, #E2E6EA)" vertical={false} />
         <XAxis
           dataKey="month"
-          tick={{ fill: '#74bf85', fontSize: 10, fontFamily: 'JetBrains Mono' }}
-          axisLine={{ stroke: 'rgba(0,255,102,0.15)' }}
+          tick={{ fill: 'var(--text-secondary, #5C6670)', fontSize: 11, fontFamily: 'Inter' }}
+          axisLine={{ stroke: 'var(--border-default, #E2E6EA)' }}
           tickLine={false}
         />
         <YAxis
-          tick={{ fill: '#74bf85', fontSize: 10, fontFamily: 'JetBrains Mono' }}
+          tick={{ fill: 'var(--text-secondary, #5C6670)', fontSize: 11, fontFamily: 'Inter' }}
           axisLine={false}
           tickLine={false}
           tickFormatter={(v) => `${(v / 1000).toFixed(0)}K`}
         />
         <Tooltip content={<CustomTooltip />} />
         <Legend
-          wrapperStyle={{ fontSize: '0.72rem', paddingTop: '10px', fontFamily: 'JetBrains Mono' }}
+          wrapperStyle={{ fontSize: '0.76rem', paddingTop: '10px', fontFamily: 'Inter' }}
         />
+        {/* Shortfall Risk area */}
         <Area
           type="monotone"
           dataKey="shortfall"
           name="Shortfall Risk"
-          fill="rgba(255, 42, 75, 0.16)"
+          fill="rgba(179, 38, 30, 0.12)"
           stroke="none"
         />
+        {/* Target bar in Govt Blue */}
         <Bar
           dataKey="target"
           name="Target (Planned)"
-          fill="rgba(0, 255, 102, 0.15)"
-          stroke="rgba(0, 255, 102, 0.5)"
-          strokeWidth={1}
-          radius={[2, 2, 0, 0]}
+          fill="var(--chart-target-fill, rgba(11, 61, 107, 0.22))"
+          stroke="var(--primary, #0B3D6B)"
+          strokeWidth={1.5}
+          radius={[3, 3, 0, 0]}
           barSize={20}
         />
+        {/* Actual Output in Manganese Ore */}
         <Line
           type="monotone"
           dataKey="actual"
           name="Actual Output"
-          stroke="#00ff66"
+          stroke="var(--chart-actual, #3C2A3E)"
           strokeWidth={2.5}
-          dot={{ fill: '#00ff66', strokeWidth: 0, r: 3 }}
-          activeDot={{ fill: '#00ff66', strokeWidth: 2, stroke: '#d4ffd4', r: 5 }}
+          dot={{ fill: 'var(--chart-actual, #3C2A3E)', strokeWidth: 0, r: 3.5 }}
+          activeDot={{ fill: 'var(--chart-actual, #3C2A3E)', strokeWidth: 2, stroke: 'var(--ore-accent-light, #E8E1EA)', r: 5.5 }}
         />
       </ComposedChart>
     </ResponsiveContainer>

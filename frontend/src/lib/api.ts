@@ -80,6 +80,10 @@ export const recommendationsAPI = {
   },
   getHistory: () => apiFetch<ActionHistory[]>('/api/recommendations/history'),
   getCategories: () => apiFetch<ActionCategory[]>('/api/recommendations/categories'),
+  markImplemented: (actionId: number) =>
+    apiFetch<{ success: boolean; message: string }>(`/api/recommendations/actions/${actionId}/implement`, {
+      method: 'POST',
+    }),
 };
 
 // ── Satellite API ──────────────────────────────

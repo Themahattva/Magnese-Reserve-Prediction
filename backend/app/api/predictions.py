@@ -116,42 +116,191 @@ async def get_risk_calendar(mine_id: int = Query(None), db: AsyncSession = Depen
     return calendar
 
 
+# Calibrated operational parameters for MOIL mines (annual plan, daily capacity, fleet & hydrology)
+MOIL_MINES_CALIBRATION = {
+    0: {
+        "name": "Fleet-wide (All Mines)",
+        "type": "aggregate",
+        "daily_capacity": 6200.0,
+        "fleet_size": 96,
+        "rain_threshold_mm": 25.0,
+        "rain_sensitivity": 0.85,
+        "blasting_buffer_hours": 1.5,
+    },
+    1: {
+        "name": "Dongri Buzurg",
+        "type": "opencast",
+        "daily_capacity": 1050.0,
+        "fleet_size": 18,
+        "rain_threshold_mm": 20.0,
+        "rain_sensitivity": 1.25,
+        "blasting_buffer_hours": 1.0,
+    },
+    2: {
+        "name": "Balaghat",
+        "type": "underground",
+        "daily_capacity": 933.0,
+        "fleet_size": 16,
+        "rain_threshold_mm": 40.0,
+        "rain_sensitivity": 0.45,
+        "blasting_buffer_hours": 2.0,
+    },
+    3: {
+        "name": "Chikla",
+        "type": "opencast",
+        "daily_capacity": 650.0,
+        "fleet_size": 12,
+        "rain_threshold_mm": 22.0,
+        "rain_sensitivity": 1.15,
+        "blasting_buffer_hours": 1.2,
+    },
+    4: {
+        "name": "Munsar",
+        "type": "opencast",
+        "daily_capacity": 700.0,
+        "fleet_size": 11,
+        "rain_threshold_mm": 20.0,
+        "rain_sensitivity": 1.30,
+        "blasting_buffer_hours": 1.0,
+    },
+    5: {
+        "name": "Kandri",
+        "type": "underground",
+        "daily_capacity": 867.0,
+        "fleet_size": 14,
+        "rain_threshold_mm": 38.0,
+        "rain_sensitivity": 0.48,
+        "blasting_buffer_hours": 2.0,
+    },
+    6: {
+        "name": "Gumgaon",
+        "type": "opencast",
+        "daily_capacity": 583.0,
+        "fleet_size": 10,
+        "rain_threshold_mm": 22.0,
+        "rain_sensitivity": 1.20,
+        "blasting_buffer_hours": 1.2,
+    },
+    7: {
+        "name": "Parsioni",
+        "type": "opencast",
+        "daily_capacity": 467.0,
+        "fleet_size": 8,
+        "rain_threshold_mm": 18.0,
+        "rain_sensitivity": 1.35,
+        "blasting_buffer_hours": 1.0,
+    },
+    8: {
+        "name": "Sitapatore",
+        "type": "underground",
+        "daily_capacity": 400.0,
+        "fleet_size": 7,
+        "rain_threshold_mm": 35.0,
+        "rain_sensitivity": 0.60,
+        "blasting_buffer_hours": 1.5,
+    },
+    9: {
+        "name": "Tirodi",
+        "type": "mixed",
+        "daily_capacity": 550.0,
+        "fleet_size": 10,
+        "rain_threshold_mm": 25.0,
+        "rain_sensitivity": 0.95,
+        "blasting_buffer_hours": 1.5,
+    },
+}
+
+
 @router.post("/what-if", response_model=WhatIfResponse)
 async def run_what_if_simulation(request: WhatIfRequest, db: AsyncSession = Depends(get_db)):
-    """Run a what-if simulation with adjusted parameters."""
-    baseline = 3500.0 * request.days_ahead  # baseline daily production * days
+    """Run a calibrated physics-informed what-if simulation for MOIL mines."""
+    calib = MOIL_MINES_CALIBRATION.get(request.mine_id, MOIL_MINES_CALIBRATION[0])
+    days = max(1, request.days_ahead)
+    baseline = calib["daily_capacity"] * days
 
-    # Calculate impacts
-    equipment_impact = request.equipment_down * 450 * request.days_ahead  # ~450 tonnes per equipment per day
-    rainfall_impact = (request.rainfall_mm / 50) * 800 * request.days_ahead  # heavy rain reduces production
-    blasting_impact = request.blasting_delay_hours * 200  # ~200 tonnes per hour of delay
-    shift_bonus = baseline * 0.15 if request.extra_shift else 0  # extra shift adds ~15%
+    # 1. Non-linear equipment downtime bottleneck
+    fleet_size = calib["fleet_size"]
+    down = min(request.equipment_down, fleet_size)
+    if down > 0 and fleet_size > 0:
+        down_ratio = down / fleet_size
+        loss_equip_frac = min(1.0, (down_ratio ** 0.88) * 1.12)
+        equipment_impact = baseline * loss_equip_frac
+    else:
+        equipment_impact = 0.0
 
-    total_impact = equipment_impact + rainfall_impact + blasting_impact - shift_bonus
-    adjusted = max(0, baseline - total_impact)
-    impact_percent = round(((baseline - adjusted) / baseline) * 100, 1) if baseline > 0 else 0
+    # 2. Hydrologic rainfall impact with mine-type thresholds
+    threshold = calib["rain_threshold_mm"]
+    sensitivity = calib["rain_sensitivity"]
+    if request.rainfall_mm <= 0:
+        rainfall_impact = 0.0
+    elif request.rainfall_mm <= threshold:
+        # Minor surface slippage & ramp speed reductions
+        rain_frac = (request.rainfall_mm / threshold) * 0.12 * sensitivity
+        rainfall_impact = baseline * rain_frac
+    else:
+        # Pit bench flooding, sump pump overload, DGMS safety restrictions
+        excess = request.rainfall_mm - threshold
+        excess_frac = min(0.72, ((excess / 80.0) ** 1.1) * sensitivity)
+        rain_frac = min(0.85, (0.12 * sensitivity) + excess_frac)
+        rainfall_impact = baseline * rain_frac
 
-    if impact_percent > 40:
+    # 3. Blasting delay impact against muckpile buffer
+    buffer = calib["blasting_buffer_hours"]
+    if request.blasting_delay_hours <= 0:
+        blasting_impact = 0.0
+    elif request.blasting_delay_hours <= buffer:
+        # Absorbed by available broken ore stockpile
+        blasting_impact = baseline * (request.blasting_delay_hours / max(0.1, buffer)) * 0.02
+    else:
+        # Stockpile exhausted, loading equipment starved
+        unbuffered = min(24.0, request.blasting_delay_hours - buffer)
+        blast_frac = (unbuffered / 24.0) * 0.40
+        blasting_impact = (baseline / days) * blast_frac * min(float(days), 2.5) + (baseline * 0.02)
+
+    # 4. Compound synergy: muddy ramps exacerbate equipment shortage
+    if request.rainfall_mm > 25.0 and request.equipment_down > 0:
+        compound_drag = (equipment_impact * 0.20) * min(1.0, (request.rainfall_mm - 25.0) / 50.0)
+    else:
+        compound_drag = 0.0
+
+    # 5. Extra shift bonus adjusted for night weather safety
+    if request.extra_shift:
+        weather_efficiency = max(0.10, 1.0 - (request.rainfall_mm / 80.0) * 0.85)
+        shift_bonus = baseline * 0.22 * weather_efficiency
+    else:
+        shift_bonus = 0.0
+
+    total_loss = equipment_impact + rainfall_impact + blasting_impact + compound_drag
+    gross_adjusted = max(0.0, baseline - total_loss + shift_bonus)
+    adjusted = min(baseline * 1.25, gross_adjusted)
+    impact_tonnes = baseline - adjusted
+    impact_percent = round((impact_tonnes / baseline) * 100, 1) if baseline > 0 else 0.0
+
+    if impact_percent >= 40.0:
         risk = "critical"
-    elif impact_percent > 25:
+    elif impact_percent >= 25.0:
         risk = "high"
-    elif impact_percent > 10:
+    elif impact_percent >= 10.0:
         risk = "medium"
     else:
         risk = "low"
 
+    breakdown = {
+        "equipment_downtime_impact": round(equipment_impact),
+        "rainfall_impact": round(rainfall_impact),
+        "blasting_delay_impact": round(blasting_impact),
+        "extra_shift_bonus": round(shift_bonus),
+    }
+    if compound_drag > 0:
+        breakdown["compound_haulroad_drag"] = round(compound_drag)
+
     return WhatIfResponse(
         baseline_production=round(baseline),
         adjusted_production=round(adjusted),
-        impact_tonnes=round(baseline - adjusted),
+        impact_tonnes=round(impact_tonnes),
         impact_percent=impact_percent,
         risk_level=risk,
-        breakdown={
-            "equipment_downtime_impact": round(equipment_impact),
-            "rainfall_impact": round(rainfall_impact),
-            "blasting_delay_impact": round(blasting_impact),
-            "extra_shift_bonus": round(shift_bonus),
-        },
+        breakdown=breakdown,
     )
 
 
