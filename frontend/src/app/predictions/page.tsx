@@ -10,7 +10,7 @@ import { predictionsAPI } from '@/lib/api';
 import type { ShortfallPrediction, RiskCalendarDay, WhatIfRequest, WhatIfResponse } from '@/lib/api';
 
 const RISK_COLORS: Record<string, string> = {
-  low: '#1B8A5A', medium: '#C77700', high: '#E65100', critical: '#B3261E',
+  low: '#00ff66', medium: '#eab308', high: '#f97316', critical: '#ff2a4b',
 };
 
 export interface MineCalibration {

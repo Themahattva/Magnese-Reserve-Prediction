@@ -7,7 +7,6 @@ import {
   AlertTriangle,
   Gauge,
   Gem,
-  ExternalLink,
 } from 'lucide-react';
 import { dashboardAPI } from '@/lib/api';
 import type { DashboardKPIs, MineStatus, ProductionTrendPoint, Alert } from '@/lib/api';
@@ -95,7 +94,7 @@ export default function DashboardPage() {
       <div className="kpi-grid">
         <div className="kpi-card animate-in">
           <div className="kpi-label">
-            <Mountain size={15} />
+            <Mountain size={14} />
             Total Reserves
           </div>
           <div className="kpi-value">{kpis?.total_reserves_mt || '—'} MT</div>
@@ -104,7 +103,7 @@ export default function DashboardPage() {
 
         <div className="kpi-card animate-in">
           <div className="kpi-label">
-            <Factory size={15} />
+            <Factory size={14} />
             Monthly Production
           </div>
           <div className="kpi-value">
@@ -117,10 +116,10 @@ export default function DashboardPage() {
 
         <div className="kpi-card animate-in">
           <div className="kpi-label">
-            <AlertTriangle size={15} />
+            <AlertTriangle size={14} />
             Active Alerts
           </div>
-          <div className="kpi-value" style={{ color: 'var(--status-danger)' }}>
+          <div className="kpi-value" style={{ color: 'var(--risk-high)' }}>
             {kpis?.active_alerts || '—'}
           </div>
           <div className="kpi-change negative">
@@ -130,23 +129,20 @@ export default function DashboardPage() {
 
         <div className="kpi-card animate-in">
           <div className="kpi-label">
-            <Gauge size={15} />
+            <Gauge size={14} />
             Equipment Utilization
           </div>
           <div className="kpi-value">{kpis?.equipment_utilization || '—'}%</div>
-          <div className="kpi-change neutral">Fleet-wide operational average</div>
+          <div className="kpi-change neutral">Fleet-wide average</div>
         </div>
 
         <div className="kpi-card animate-in">
-          <div className="kpi-label" style={{ justifyContent: 'space-between' }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-              <Gem size={15} color="#3C2A3E" />
-              Avg Ore Grade
-            </span>
-            <span className="ore-badge">Mn Grade</span>
+          <div className="kpi-label">
+            <Gem size={14} />
+            Avg Ore Grade
           </div>
           <div className="kpi-value">{kpis?.avg_ore_grade || '—'}%</div>
-          <div className="kpi-change positive">Mn content (weighted average)</div>
+          <div className="kpi-change positive">Mn content (weighted)</div>
         </div>
       </div>
 
@@ -156,7 +152,7 @@ export default function DashboardPage() {
         <div className="card">
           <div className="card-header">
             <span className="card-title">Production vs Target (12-Month Trend)</span>
-            <span className="card-subtitle">Metric Tonnes / Month</span>
+            <span className="card-subtitle">tonnes / month</span>
           </div>
           <ProductionTrendChart data={trend} />
         </div>
@@ -165,7 +161,7 @@ export default function DashboardPage() {
         <div className="card">
           <div className="card-header">
             <span className="card-title">Mine Locations</span>
-            <span className="card-subtitle">Telemetry &amp; Risk Status</span>
+            <span className="card-subtitle">Risk Status</span>
           </div>
           <MiniMap mines={mines} />
         </div>
@@ -175,9 +171,8 @@ export default function DashboardPage() {
       <div className="card animate-in-delayed">
         <div className="card-header">
           <span className="card-title">Recent Alerts &amp; Predictions</span>
-          <button className="btn btn-secondary" style={{ fontSize: '0.74rem', padding: '5px 12px' }}>
-            <ExternalLink size={13} />
-            View Full Logs
+          <button className="btn btn-secondary" style={{ fontSize: '0.72rem' }}>
+            [ VIEW LOGS ]
           </button>
         </div>
         <div className="alert-list">
@@ -190,7 +185,7 @@ export default function DashboardPage() {
                 <h4>{alert.mine_name}</h4>
                 <p>{alert.message}</p>
                 <div className="alert-meta">
-                  Target: {alert.target_date} · Telemetry Logged: {new Date(alert.created_at).toLocaleDateString()}
+                  Target: {alert.target_date} · Created: {new Date(alert.created_at).toLocaleDateString()}
                 </div>
               </div>
             </div>

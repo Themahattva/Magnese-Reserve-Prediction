@@ -26,11 +26,11 @@ const PRIORITY_WEIGHT: Record<string, number> = {
 };
 
 const PRIORITY_COLORS: Record<string, string> = {
-  urgent: '#B3261E',
-  critical: '#B3261E',
-  high: '#C77700',
-  medium: '#C77700',
-  low: '#1B8A5A',
+  urgent: '#ff2a4b',
+  critical: '#ff2a4b',
+  high: '#f97316',
+  medium: '#eab308',
+  low: '#00ff66',
 };
 
 function sortActionsByPriority(list: CorrectiveAction[]): CorrectiveAction[] {
@@ -312,7 +312,7 @@ export default function RecommendationsPage() {
             animation: 'fadeInUp 0.25s ease forwards',
           }}
         >
-          <CheckCircle2 size={18} color="#1B8A5A" />
+          <CheckCircle2 size={18} color="#00ff66" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -370,7 +370,7 @@ export default function RecommendationsPage() {
             gap: '6px',
             padding: '6px 14px',
             background: !selectedCategory ? 'var(--primary)' : 'var(--bg-card)',
-            color: !selectedCategory ? '#FFFFFF' : 'var(--text-secondary)',
+            color: !selectedCategory ? '#030704' : 'var(--text-secondary)',
             border: `1px solid ${!selectedCategory ? 'var(--primary)' : 'var(--border-default)'}`,
             borderRadius: 'var(--radius-xl)',
             fontSize: '0.78rem',
@@ -395,7 +395,7 @@ export default function RecommendationsPage() {
                 gap: '6px',
                 padding: '6px 14px',
                 background: isSelected ? 'var(--primary)' : 'var(--bg-card)',
-                color: isSelected ? '#FFFFFF' : 'var(--text-secondary)',
+                color: isSelected ? '#030704' : 'var(--text-secondary)',
                 border: `1px solid ${isSelected ? 'var(--primary)' : 'var(--border-default)'}`,
                 borderRadius: 'var(--radius-xl)',
                 fontSize: '0.78rem',
@@ -410,7 +410,7 @@ export default function RecommendationsPage() {
                 style={{
                   fontWeight: 700,
                   fontFamily: 'JetBrains Mono, monospace',
-                  color: isSelected ? '#FFFFFF' : 'var(--primary)',
+                  color: isSelected ? '#030704' : 'var(--primary)',
                 }}
               >
                 {cat.count}
@@ -478,12 +478,12 @@ export default function RecommendationsPage() {
                   onClick={() => setExpandedAction(isExpanded ? null : action.id)}
                   style={{
                     borderLeft: action.is_implemented
-                      ? '4px solid #1B8A5A'
+                      ? '4px solid #00ff66'
                       : action.priority === 'urgent'
-                      ? '4px solid #B3261E'
+                      ? '4px solid #ff2a4b'
                       : action.priority === 'high'
-                      ? '4px solid #C77700'
-                      : '4px solid #3E7EB8',
+                      ? '4px solid #f97316'
+                      : '4px solid #00ffcc',
                     opacity: action.is_implemented ? 0.78 : 1,
                     background: action.is_implemented ? 'var(--bg-card-hover)' : 'var(--bg-card)',
                   }}
@@ -525,9 +525,9 @@ export default function RecommendationsPage() {
                             fontWeight: 700,
                             padding: '2px 7px',
                             borderRadius: '3px',
-                            background: 'rgba(179, 38, 30, 0.12)',
-                            color: '#B3261E',
-                            border: '1px solid rgba(179, 38, 30, 0.3)',
+                            background: 'rgba(255, 42, 75, 0.16)',
+                            color: '#ff2a4b',
+                            border: '1px solid rgba(255, 42, 75, 0.4)',
                           }}
                         >
                           TOP PRIORITY
@@ -604,9 +604,9 @@ export default function RecommendationsPage() {
                             display: 'inline-flex',
                             alignItems: 'center',
                             gap: '6px',
-                            background: action.is_implemented ? 'rgba(27, 138, 90, 0.12)' : undefined,
-                            borderColor: action.is_implemented ? '#1B8A5A' : undefined,
-                            color: action.is_implemented ? '#1B8A5A' : undefined,
+                            background: action.is_implemented ? 'rgba(0, 255, 102, 0.12)' : undefined,
+                            borderColor: action.is_implemented ? '#00ff66' : undefined,
+                            color: action.is_implemented ? '#00ff66' : undefined,
                           }}
                         >
                           {action.is_implemented ? (

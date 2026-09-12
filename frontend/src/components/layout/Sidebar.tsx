@@ -8,11 +8,10 @@ import {
   BarChart3,
   AlertTriangle,
   Lightbulb,
-  Building2,
 } from 'lucide-react';
 
 const navItems = [
-  { href: '/', label: 'Dashboard Overview', icon: LayoutDashboard },
+  { href: '/', label: 'Overview', icon: LayoutDashboard },
   { href: '/reserves', label: 'Reserve Mapping', icon: Map },
   { href: '/production', label: 'Production Analytics', icon: BarChart3 },
   { href: '/predictions', label: 'Shortfall Predictions', icon: AlertTriangle },
@@ -25,25 +24,8 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
-        <h1>
-          <Building2 size={20} color="#0B3D6B" />
-          <span>MOIL LIMITED</span>
-        </h1>
-        <p>Manganese Ore India Ltd.</p>
-        <div style={{ marginTop: '6px' }}>
-          <span style={{
-            fontSize: '0.62rem',
-            padding: '2px 6px',
-            borderRadius: '3px',
-            background: 'var(--ore-accent-light)',
-            color: 'var(--ore-accent)',
-            fontWeight: 700,
-            letterSpacing: '0.04em',
-            textTransform: 'uppercase',
-          }}>
-            Miniratna I PSU · Govt of India
-          </span>
-        </div>
+        <h1>&gt;_ MOIL.SYS</h1>
+        <p>{'// AI DEEP-TECH CONSOLE'}</p>
       </div>
 
       <nav className="sidebar-nav">
@@ -60,7 +42,7 @@ export default function Sidebar() {
               href={item.href}
               className={`nav-item ${isActive ? 'active' : ''}`}
             >
-              <Icon className="nav-icon" size={17} />
+              <Icon className="nav-icon" size={18} />
               <span>{item.label}</span>
             </Link>
           );
@@ -68,12 +50,7 @@ export default function Sidebar() {
       </nav>
 
       <div className="sidebar-footer">
-        <p style={{ fontWeight: 600, color: 'var(--primary)', marginBottom: '2px' }}>
-          Smart India Hackathon 2026
-        </p>
-        <p style={{ fontSize: '0.66rem', color: 'var(--text-muted)' }}>
-          SIH26009 · Ministry of Steel
-        </p>
+        <p>[root@moil-ai:~$] · v2.6.0</p>
       </div>
     </aside>
   );
