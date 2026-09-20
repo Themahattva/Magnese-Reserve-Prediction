@@ -1,11 +1,7 @@
 import type { Metadata } from 'next';
 import 'ux4g-web-components/styles.css';
 import './globals.css';
-import AccessibilityBar from '@/components/layout/AccessibilityBar';
-import Navbar from '@/components/layout/Navbar';
-import Breadcrumbs from '@/components/layout/Breadcrumbs';
-import Footer from '@/components/layout/Footer';
-import { LanguageProvider } from '@/context/LanguageContext';
+import AppShell from '@/components/layout/AppShell';
 
 export const metadata: Metadata = {
   title: 'ANVESHA — Uncertainty-Aware AI for Manganese Exploration & Production',
@@ -32,17 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <LanguageProvider>
-          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-            <AccessibilityBar />
-            <Navbar />
-            <Breadcrumbs />
-            <main id="main-content" className="ux4g-main-container" tabIndex={-1}>
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </LanguageProvider>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
