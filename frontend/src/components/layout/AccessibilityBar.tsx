@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Moon, Sun } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function AccessibilityBar() {
   const [fontSizeOffset, setFontSizeOffset] = useState<number>(0);
-  const [lang, setLang] = useState<'hi' | 'en'>('hi');
+  const { language, setLanguage } = useLanguage();
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
@@ -101,16 +102,19 @@ export default function AccessibilityBar() {
               <div className="moil-lang-switcher" role="group" aria-label="Language selection">
                 <button
                   type="button"
-                  className={`moil-lang-pill ${lang === 'hi' ? 'active' : ''}`}
-                  onClick={() => setLang('hi')}
+                  className={`moil-lang-btn ${language === 'hi' ? 'active' : ''}`}
+                  onClick={() => setLanguage('hi')}
+                  aria-pressed={language === 'hi'}
+                  title="हिंदी में देखें"
                 >
                   हिंदी
                 </button>
-                <span className="moil-lang-divider">|</span>
                 <button
                   type="button"
-                  className={`moil-lang-text ${lang === 'en' ? 'active' : ''}`}
-                  onClick={() => setLang('en')}
+                  className={`moil-lang-btn ${language === 'en' ? 'active' : ''}`}
+                  onClick={() => setLanguage('en')}
+                  aria-pressed={language === 'en'}
+                  title="View in English"
                 >
                   Eng
                 </button>

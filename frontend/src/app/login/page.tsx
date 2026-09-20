@@ -116,7 +116,7 @@ export default function LoginPage() {
         </div>
 
         {/* Login Card */}
-        <div className="login-card-box">
+        <div className="login-card-box" data-no-translate="true">
           <div className="login-card-header">
             <div className="login-app-badge">
               <span className="login-badge-hindi">अन्वेषा</span>

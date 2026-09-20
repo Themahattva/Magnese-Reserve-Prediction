@@ -359,9 +359,53 @@ a:hover {
 .moil-lang-switcher {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  font-size: 0.8rem;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2px;
+  gap: 2px;
+}
+
+[data-theme="dark"] .moil-lang-switcher {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+.moil-lang-btn {
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.78rem;
   font-weight: 500;
+  cursor: pointer;
+  color: #475569;
+  transition: all 0.15s ease;
+  line-height: 1.25;
+}
+
+.moil-lang-btn:hover {
+  color: #0f172a;
+}
+
+[data-theme="dark"] .moil-lang-btn {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .moil-lang-btn:hover {
+  color: #f8fafc;
+}
+
+.moil-lang-btn.active {
+  background-color: #1e3a5f;
+  color: #ffffff !important;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] .moil-lang-btn.active {
+  background-color: #0284c7;
+  color: #ffffff !important;
 }
 
 .moil-lang-pill {

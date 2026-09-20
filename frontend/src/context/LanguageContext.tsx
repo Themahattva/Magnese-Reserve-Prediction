@@ -233,6 +233,11 @@ const SORTED_REPLACEMENTS: [string, string][] = Object.entries(MASTER_DICTIONARY
   (a, b) => b[0].length - a[0].length
 );
 
+// Reverse dictionary for robust English restoration
+const REVERSE_REPLACEMENTS: [string, string][] = Object.entries(MASTER_DICTIONARY)
+  .map(([english, hindi]): [string, string] => [hindi, english])
+  .sort((a, b) => b[0].length - a[0].length);
+
 // Map to store original text for any DOM text node that was translated
 const originalNodeMap = new WeakMap<Node, string>();
 
@@ -247,14 +252,28 @@ function translateString(input: string): string {
   return result;
 }
 
+function restoreEnglishString(input: string): string {
+  if (!input || !input.trim()) return input;
+  let result = input;
+  for (const [hindi, english] of REVERSE_REPLACEMENTS) {
+    if (result.includes(hindi)) {
+      result = result.split(hindi).join(english);
+    }
+  }
+  return result;
+}
+
 function processTextNode(node: Node, lang: Language) {
   if (node.nodeType !== Node.TEXT_NODE) return;
 
-  // Skip script, style, code blocks, pre tags
+  // Skip script, style, code blocks, pre tags, and explicitly managed components
   const parent = node.parentElement;
   if (!parent) return;
   const tagName = parent.tagName.toLowerCase();
   if (tagName === 'script' || tagName === 'style' || tagName === 'code' || tagName === 'pre') {
+    return;
+  }
+  if (parent.closest('[data-no-translate]')) {
     return;
   }
 
@@ -279,6 +298,12 @@ function processTextNode(node: Node, lang: Language) {
         node.nodeValue = orig;
       }
       originalNodeMap.delete(node);
+    } else {
+      // Fallback: reverse-translate if node was recreated in DOM
+      const restored = restoreEnglishString(currentVal);
+      if (restored !== currentVal) {
+        node.nodeValue = restored;
+      }
     }
   }
 }
