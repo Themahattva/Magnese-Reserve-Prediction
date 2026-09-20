@@ -1,5 +1,6 @@
 import { jsPDF } from 'jspdf';
 import type { CorrectiveAction } from './api';
+import { ASHOK_STAMBH_BASE64, MOIL_LOGO_BASE64 } from './pdfLogos';
 
 export function exportActionToPdf(action: CorrectiveAction): string {
   const doc = new jsPDF({
@@ -12,9 +13,24 @@ export function exportActionToPdf(action: CorrectiveAction): string {
   const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 18;
   const contentWidth = pageWidth - margin * 2;
-  let y = 14;
+  let y = 13;
 
-  // ── 1. Top Formal Government Header (Center Aligned) ─────────
+  // ── 1. Bilateral Official Insignia ───────────────────────────
+  // Left: State Emblem of India (Ashok Stambh)
+  try {
+    doc.addImage(ASHOK_STAMBH_BASE64, 'PNG', margin, 11, 13, 18);
+  } catch {
+    // Graceful fallback
+  }
+
+  // Right: MOIL Corporate Emblem
+  try {
+    doc.addImage(MOIL_LOGO_BASE64, 'PNG', pageWidth - margin - 16, 12, 16, 16);
+  } catch {
+    // Graceful fallback
+  }
+
+  // ── 2. Top Formal Government Header (Center Aligned) ─────────
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(10.5);
   doc.setTextColor(20, 20, 20);
@@ -35,10 +51,10 @@ export function exportActionToPdf(action: CorrectiveAction): string {
   doc.setFont('helvetica', 'italic');
   doc.setFontSize(8);
   doc.setTextColor(70, 70, 70);
-  doc.text('(A Government of India Enterprise · Miniratna-I Category CPSE)', pageWidth / 2, y, { align: 'center' });
+  doc.text('(A Government of India Enterprise - Miniratna-I Category CPSE)', pageWidth / 2, y, { align: 'center' });
   y += 3.8;
   doc.setFont('helvetica', 'normal');
-  doc.text('MOIL Bhawan, 1A Katol Road, Nagpur, Maharashtra – 440013', pageWidth / 2, y, { align: 'center' });
+  doc.text('MOIL Bhawan, 1A Katol Road, Nagpur, Maharashtra - 440013', pageWidth / 2, y, { align: 'center' });
   y += 4.5;
 
   // Double Horizontal Line (Official Gazette standard)
@@ -82,7 +98,7 @@ export function exportActionToPdf(action: CorrectiveAction): string {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8.8);
   doc.setTextColor(0, 0, 0);
-  const subjText = `SUBJECT: OPERATIONAL DIRECTIVE – ${action.title.toUpperCase()}`;
+  const subjText = `SUBJECT: OPERATIONAL DIRECTIVE - ${action.title.toUpperCase()}`;
   const subjLines = doc.splitTextToSize(subjText, contentWidth);
   doc.text(subjLines, margin, y);
   y += subjLines.length * 4.2 + 2;
@@ -242,7 +258,7 @@ export function exportActionToPdf(action: CorrectiveAction): string {
   doc.setFontSize(6.5);
   doc.setTextColor(100, 100, 100);
   doc.text('[ OFFICIAL ROUND SEAL / STAMP ]', margin + 27.5, stampY + 7, { align: 'center' });
-  doc.text('MOIL LIMITED · PRODUCTION CELL', margin + 27.5, stampY + 11.5, { align: 'center' });
+  doc.text('MOIL LIMITED | PRODUCTION CELL', margin + 27.5, stampY + 11.5, { align: 'center' });
 
   // RIGHT COLUMN: Undersigned Officer Sign-off Block
   doc.setFont('helvetica', 'bold');
@@ -292,7 +308,7 @@ export function exportActionToPdf(action: CorrectiveAction): string {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.8);
   doc.setTextColor(120, 120, 120);
-  doc.text('MOIL AI-Enabled Mining Intelligence System · Smart India Hackathon 2026 (SIH26009)', margin, pageBottomY + 2);
+  doc.text('MOIL AI-Enabled Mining Intelligence System | Smart India Hackathon 2026 (SIH26009)', margin, pageBottomY + 2);
   doc.text('Page 1 of 1', pageWidth - margin, pageBottomY + 2, { align: 'right' });
 
   // Save PDF

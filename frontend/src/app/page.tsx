@@ -1,17 +1,24 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import {
   Mountain,
   Factory,
   AlertTriangle,
   Gauge,
-  Gem,
+  Sparkles,
+  Layers,
+  ArrowUpRight,
+  TrendingDown,
+  RefreshCw,
+  Clock,
 } from 'lucide-react';
 import { dashboardAPI } from '@/lib/api';
 import type { DashboardKPIs, MineStatus, ProductionTrendPoint, Alert } from '@/lib/api';
 import ProductionTrendChart from '@/components/charts/ProductionTrendChart';
 import MiniMap from '@/components/maps/MiniMap';
+import HEMMFleetSection from '@/components/dashboard/HEMMFleetSection';
 
 export default function DashboardPage() {
   const [kpis, setKpis] = useState<DashboardKPIs | null>(null);
@@ -19,6 +26,7 @@ export default function DashboardPage() {
   const [trend, setTrend] = useState<ProductionTrendPoint[]>([]);
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedDistrict, setSelectedDistrict] = useState<string>('all');
 
   useEffect(() => {
     async function loadData() {
@@ -35,7 +43,7 @@ export default function DashboardPage() {
         setAlerts(alertData);
       } catch (err) {
         console.error('Failed to load dashboard data:', err);
-        // Use fallback data for demo
+        // Fallback realistic simulation data
         setKpis({
           total_reserves_mt: 152.4,
           current_production_rate: 98500,
@@ -88,108 +96,223 @@ export default function DashboardPage() {
     ? (((kpis.production_target - kpis.current_production_rate) / kpis.production_target) * 100).toFixed(1)
     : '0';
 
+  if (loading) {
+    return (
+      <div style={{ padding: '3rem', textAlign: 'center' }}>
+        <RefreshCw className="animate-spin" size={32} style={{ color: 'var(--ux4g-primary)', margin: '0 auto 1rem' }} />
+        <h2>Loading ANVESHA Mining Intelligence...</h2>
+        <p>Connecting to operational telemetry and geological models</p>
+      </div>
+    );
+  }
+
   return (
     <>
-      {/* KPI Cards */}
+      {/* Page Header */}
+      <div className="page-header">
+        <div>
+          <h1>Operational &amp; Exploration Dashboard</h1>
+          <p>
+            Real-time synthesis of satellite mineral indicators, borehole assay distributions, and fleet telemetry across MOIL Ltd. mining leases.
+          </p>
+        </div>
+
+        <div className="page-actions">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+            <Clock size={13} aria-hidden="true" />
+            <span>Updated: 14 mins ago</span>
+          </div>
+          <Link href="/exploration" className="ux4g-btn ux4g-btn-outline ux4g-btn-sm">
+            <Layers size={14} aria-hidden="true" />
+            <span>Explore Map</span>
+          </Link>
+          <Link href="/decisions" className="ux4g-btn ux4g-btn-primary ux4g-btn-sm">
+            <Sparkles size={14} aria-hidden="true" />
+            <span>Review Actions</span>
+          </Link>
+        </div>
+      </div>
+
+      {/* Filter / Freshness Bar */}
+      <div className="filters-bar">
+        <label htmlFor="district-filter" style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+          Mining Cluster:
+        </label>
+        <select
+          id="district-filter"
+          className="filter-select"
+          value={selectedDistrict}
+          onChange={(e) => setSelectedDistrict(e.target.value)}
+        >
+          <option value="all">All Clusters (Maharashtra &amp; Madhya Pradesh)</option>
+          <option value="nagpur">Nagpur Cluster (Munsar, Kandri, Gumgaon, Parsioni)</option>
+          <option value="bhandara">Bhandara Cluster (Dongri Buzurg, Chikla)</option>
+          <option value="balaghat">Balaghat Cluster (Balaghat, Sitapatore, Tirodi)</option>
+        </select>
+
+        <span style={{ color: 'var(--border-strong)', margin: '0 0.5rem' }}>|</span>
+
+        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+          Active Mines: <strong>{kpis?.mines_count || 9}</strong>
+        </span>
+        <span style={{ color: 'var(--border-strong)', margin: '0 0.5rem' }}>|</span>
+        <span style={{ fontSize: '0.8rem', color: 'var(--status-critical)' }}>
+          Mines with Shortfall Risk: <strong>{kpis?.risk_mines_count || 2}</strong>
+        </span>
+      </div>
+
+      {/* KPI Cards Grid */}
       <div className="kpi-grid">
-        <div className="kpi-card animate-in">
+        <div className="kpi-card">
           <div className="kpi-label">
-            <Mountain size={14} />
-            Total Reserves
+            <Mountain size={14} style={{ color: 'var(--ux4g-primary)' }} aria-hidden="true" />
+            <span>Total Inferred Reserves</span>
           </div>
           <div className="kpi-value">{kpis?.total_reserves_mt || '—'} MT</div>
-          <div className="kpi-change neutral">Across {kpis?.mines_count || 9} active mines</div>
+          <div className="kpi-change neutral">Across {kpis?.mines_count || 9} operational blocks</div>
         </div>
 
-        <div className="kpi-card animate-in">
+        <div className="kpi-card">
           <div className="kpi-label">
-            <Factory size={14} />
-            Monthly Production
+            <Factory size={14} style={{ color: '#0bbbea' }} aria-hidden="true" />
+            <span>Monthly Production</span>
           </div>
           <div className="kpi-value">
-            {kpis ? (kpis.current_production_rate / 1000).toFixed(1) : '—'}K
+            {kpis ? (kpis.current_production_rate / 1000).toFixed(1) : '—'}K MT
           </div>
           <div className="kpi-change negative">
-            ▼ {shortfallPercent}% below target
+            <TrendingDown size={12} aria-hidden="true" />
+            <span>{shortfallPercent}% below target (110K MT)</span>
           </div>
         </div>
 
-        <div className="kpi-card animate-in">
+        <div className="kpi-card">
           <div className="kpi-label">
-            <AlertTriangle size={14} />
-            Active Alerts
+            <AlertTriangle size={14} style={{ color: 'var(--status-high)' }} aria-hidden="true" />
+            <span>Active Alerts</span>
           </div>
-          <div className="kpi-value" style={{ color: 'var(--risk-high)' }}>
+          <div className="kpi-value" style={{ color: 'var(--status-high)' }}>
             {kpis?.active_alerts || '—'}
           </div>
           <div className="kpi-change negative">
-            {kpis?.risk_mines_count || 0} mines at risk
+            <span>{kpis?.risk_mines_count || 0} sites requiring operational review</span>
           </div>
         </div>
 
-        <div className="kpi-card animate-in">
+        <div className="kpi-card">
           <div className="kpi-label">
-            <Gauge size={14} />
-            Equipment Utilization
+            <Gauge size={14} style={{ color: 'var(--status-low)' }} aria-hidden="true" />
+            <span>Fleet Availability</span>
           </div>
           <div className="kpi-value">{kpis?.equipment_utilization || '—'}%</div>
-          <div className="kpi-change neutral">Fleet-wide average</div>
+          <div className="kpi-change positive">Above baseline threshold (75%)</div>
         </div>
 
-        <div className="kpi-card animate-in">
+        <div className="kpi-card">
           <div className="kpi-label">
-            <Gem size={14} />
-            Avg Ore Grade
+            <Sparkles size={14} style={{ color: '#d98a00' }} aria-hidden="true" />
+            <span>Average Ore Grade</span>
           </div>
           <div className="kpi-value">{kpis?.avg_ore_grade || '—'}%</div>
-          <div className="kpi-change positive">Mn content (weighted)</div>
+          <div className="kpi-change neutral">Run-of-mine Mn concentration</div>
         </div>
       </div>
 
       {/* Main Grid: Chart + Map */}
-      <div className="dashboard-grid animate-in-delayed">
+      <div className="dashboard-grid">
         {/* Production Trend Chart */}
-        <div className="card">
-          <div className="card-header">
-            <span className="card-title">Production vs Target (12-Month Trend)</span>
-            <span className="card-subtitle">tonnes / month</span>
+        <div className="ux4g-card">
+          <div className="ux4g-card-header">
+            <h3>
+              <Factory size={16} style={{ color: 'var(--ux4g-primary)' }} aria-hidden="true" />
+              <span>Production vs. Target Horizon (12-Month Trend)</span>
+            </h3>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Unit: Tonnes / Month</span>
           </div>
-          <ProductionTrendChart data={trend} />
+          <div className="ux4g-card-body">
+            <ProductionTrendChart data={trend} />
+          </div>
+          <div className="ux4g-card-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>Model estimate updated with Central India IMD monsoon telemetry</span>
+            <Link href="/production" className="ux4g-btn ux4g-btn-outline ux4g-btn-sm">
+              <span>View What-If Simulator</span>
+              <ArrowUpRight size={12} aria-hidden="true" />
+            </Link>
+          </div>
         </div>
 
         {/* Mini Map */}
-        <div className="card">
-          <div className="card-header">
-            <span className="card-title">Mine Locations</span>
-            <span className="card-subtitle">Risk Status</span>
+        <div className="ux4g-card">
+          <div className="ux4g-card-header">
+            <h3>
+              <Layers size={16} style={{ color: 'var(--ux4g-primary)' }} aria-hidden="true" />
+              <span>Mine Locations &amp; Shortfall Risk</span>
+            </h3>
+            <span className="ux4g-badge badge-neutral">9 Active Leases</span>
           </div>
-          <MiniMap mines={mines} />
+          <div className="ux4g-card-body" style={{ padding: 0 }}>
+            <MiniMap mines={mines} />
+          </div>
+          <div className="ux4g-card-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>Click markers for block details</span>
+            <Link href="/exploration" className="ux4g-btn ux4g-btn-outline ux4g-btn-sm">
+              <span>Full Exploration Map</span>
+              <ArrowUpRight size={12} aria-hidden="true" />
+            </Link>
+          </div>
         </div>
       </div>
 
-      {/* Recent Alerts */}
-      <div className="card animate-in-delayed">
-        <div className="card-header">
-          <span className="card-title">Recent Alerts &amp; Predictions</span>
-          <button className="btn btn-secondary" style={{ fontSize: '0.72rem' }}>
-            [ VIEW LOGS ]
-          </button>
+      {/* Heavy Earth Moving Machinery (HEMM) Fleet Operations */}
+      <HEMMFleetSection />
+
+      {/* Recent Alerts & Decisions */}
+      <div className="ux4g-card" style={{ marginBottom: '2rem' }}>
+        <div className="ux4g-card-header">
+          <h3>
+            <AlertTriangle size={16} style={{ color: 'var(--status-critical)' }} aria-hidden="true" />
+            <span>Shortfall Warnings &amp; Pending Reviews</span>
+          </h3>
+          <Link href="/decisions" className="ux4g-btn ux4g-btn-primary ux4g-btn-sm">
+            <span>Decision Center</span>
+            <ArrowUpRight size={13} aria-hidden="true" />
+          </Link>
         </div>
-        <div className="alert-list">
-          {alerts.map((alert) => (
-            <div key={alert.id} className="alert-item">
-              <span className={`risk-badge ${alert.risk_level}`}>
-                {alert.risk_level}
-              </span>
-              <div className="alert-content">
-                <h4>{alert.mine_name}</h4>
-                <p>{alert.message}</p>
-                <div className="alert-meta">
-                  Target: {alert.target_date} · Created: {new Date(alert.created_at).toLocaleDateString()}
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="ux4g-table-wrapper" style={{ border: 'none', borderRadius: 0 }}>
+          <table className="ux4g-table">
+            <thead>
+              <tr>
+                <th scope="col">Risk Level</th>
+                <th scope="col">Mine Site</th>
+                <th scope="col">Alert Description</th>
+                <th scope="col">Target Horizon</th>
+                <th scope="col">Reported On</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {alerts.map((alert) => (
+                <tr key={alert.id}>
+                  <td>
+                    <span className={`ux4g-badge badge-${alert.risk_level}`}>
+                      {alert.risk_level}
+                    </span>
+                  </td>
+                  <td style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{alert.mine_name}</td>
+                  <td>{alert.message}</td>
+                  <td style={{ whiteSpace: 'nowrap' }}>{alert.target_date}</td>
+                  <td style={{ whiteSpace: 'nowrap', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                    {new Date(alert.created_at).toLocaleDateString()}
+                  </td>
+                  <td>
+                    <Link href="/decisions" className="ux4g-btn ux4g-btn-outline ux4g-btn-sm">
+                      Review
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </>

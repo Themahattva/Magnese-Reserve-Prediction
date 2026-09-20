@@ -95,6 +95,59 @@ export const satelliteAPI = {
   getMineLocations: () => apiFetch<MineLocation[]>('/api/satellite/mines-locations'),
 };
 
+// ── Exploration API (ANVESHA Active Exploration & 3D Orebody) ──
+export const explorationAPI = {
+  getDrillCandidates: (mineId?: number, priority?: string) => {
+    const params = new URLSearchParams();
+    if (mineId) params.set('mine_id', String(mineId));
+    if (priority) params.set('priority', priority);
+    return apiFetch<DrillCandidatesResponse>(`/api/exploration/drill-candidates?${params}`);
+  },
+  getDrillCandidateDetail: (siteId: string) =>
+    apiFetch<DrillCandidate>(`/api/exploration/drill-candidates/${siteId}`),
+  reviewDrillCandidate: (
+    siteId: string,
+    action: 'approve' | 'reject' | 'request_evidence',
+    reviewerName?: string,
+    comments?: string
+  ) => {
+    const params = new URLSearchParams();
+    params.set('action', action);
+    if (reviewerName) params.set('reviewer_name', reviewerName);
+    if (comments) params.set('comments', comments);
+    return apiFetch<{ success: boolean; site_id: string; status: string; message: string }>(
+      `/api/exploration/drill-candidates/${siteId}/review?${params}`,
+      { method: 'POST' }
+    );
+  },
+  get3DOrebody: (mineId: number = 1) =>
+    apiFetch<Orebody3DResponse>(`/api/exploration/3d-orebody?mine_id=${mineId}`),
+  getUncertaintyGrid: (mineId: number = 1) =>
+    apiFetch<UncertaintyGridResponse>(`/api/exploration/uncertainty?mine_id=${mineId}`),
+};
+
+// ── Models Registry API ────────────────────────
+export const modelsAPI = {
+  getModels: () => apiFetch<ModelsListResponse>('/api/models/'),
+  getModelDetails: (modelId: string) => apiFetch<RegisteredModel>(`/api/models/${modelId}`),
+  getModelDrift: (modelId: string) => apiFetch<ModelDriftResponse>(`/api/models/${modelId}/drift`),
+};
+
+// ── Data Quality API ───────────────────────────
+export const dataQualityAPI = {
+  getSources: () => apiFetch<DataSourcesResponse>('/api/data-quality/sources'),
+  getQualityMetrics: () => apiFetch<DataQualityMetrics>('/api/data-quality/quality-metrics'),
+};
+
+// ── Audit API ──────────────────────────────────
+export const auditAPI = {
+  getAuditLogs: () => apiFetch<AuditLogsResponse>('/api/audit/'),
+  createAuditLog: (entry: AuditEntryInput) =>
+    apiFetch<{ success: boolean; log_id: number; entry: AuditLogEntry }>('/api/audit/', {
+      method: 'POST',
+      body: JSON.stringify(entry),
+    }),
+};
 
 // ── Type Definitions ───────────────────────────
 
@@ -194,13 +247,18 @@ export interface ProductionSummary {
 
 export interface Equipment {
   id: number;
+  unique_id?: string;
   mine_id: number;
+  mine_name?: string;
   equipment_type: string;
   model_name: string;
-  status: string;
+  capacity?: string;
+  status: 'active' | 'idle' | 'maintenance' | 'breakdown' | string;
   utilization_percent: number;
   hours_today: number;
   downtime_reason: string | null;
+  last_maintenance?: string | null;
+  next_maintenance?: string | null;
 }
 
 export interface ShortfallPrediction {
@@ -232,6 +290,7 @@ export interface WhatIfRequest {
 }
 
 export interface WhatIfResponse {
+  scenario?: string;
   baseline_production: number;
   adjusted_production: number;
   impact_tonnes: number;
@@ -314,3 +373,187 @@ export interface MineLocation {
   state: string;
   type: string;
 }
+
+// ── ANVESHA Exploration Types ───────────────────
+export interface DrillCandidate {
+  site_id: string;
+  mine_id: number;
+  mine_name: string;
+  latitude: number;
+  longitude: number;
+  priority: 'low' | 'medium' | 'high' | 'critical';
+  estimated_mn_probability: number;
+  expected_grade_percent: number;
+  uncertainty_level: 'low' | 'medium' | 'high';
+  expected_uncertainty_reduction_percent: number;
+  value_of_information_score: number;
+  estimated_drilling_cost_inr: number;
+  target_depth_m: number;
+  accessibility: string;
+  geological_formation: string;
+  surface_spectral_evidence: string;
+  nearest_borehole_id: string;
+  distance_to_nearest_borehole_m: number;
+  primary_reason: string;
+  review_status: 'pending_review' | 'approved' | 'rejected' | 'needs_evidence';
+  reviewed_by?: string | null;
+  reviewed_at?: string | null;
+  review_comments?: string | null;
+}
+
+export interface DrillCandidatesResponse {
+  count: number;
+  model_version: string;
+  algorithm: string;
+  candidates: DrillCandidate[];
+}
+
+export interface OrebodyVoxel {
+  x: number;
+  y: number;
+  z: number;
+  size_m: [number, number, number];
+  mn_probability: number;
+  estimated_grade_percent: number;
+  uncertainty: number;
+  is_orebody: boolean;
+}
+
+export interface BoreholeTrace {
+  id: string;
+  surface_coords: [number, number, number];
+  depth_m: number;
+  collar_elevation_m: number;
+  assay_intercepts: {
+    from_m: number;
+    to_m: number;
+    lithology: string;
+    mn_percent: number;
+  }[];
+}
+
+export interface Orebody3DResponse {
+  mine_id: number;
+  mine_name: string;
+  datum_crs: string;
+  model_version: string;
+  voxel_dimensions_m: [number, number, number];
+  total_voxels: number;
+  voxels: OrebodyVoxel[];
+  borehole_traces: BoreholeTrace[];
+}
+
+export interface UncertaintyPoint {
+  latitude: number;
+  longitude: number;
+  inferred_probability: number;
+  uncertainty_score: number;
+  confidence_level: 'low' | 'medium' | 'high';
+  supporting_boreholes_count: number;
+  evidence_coverage: 'good' | 'moderate' | 'sparse';
+  is_drilling_target: boolean;
+}
+
+export interface UncertaintyGridResponse {
+  mine_id: number;
+  mine_name: string;
+  mean_uncertainty: number;
+  high_uncertainty_target_zones: number;
+  grid_points: UncertaintyPoint[];
+}
+
+// ── Models Registry Types ───────────────────────
+export interface RegisteredModel {
+  model_id: string;
+  name: string;
+  version: string;
+  category: string;
+  algorithm: string;
+  training_date: string;
+  validation_date: string;
+  status: string;
+  dataset_version: string;
+  metrics: Record<string, number>;
+  drift_status: string;
+  approved_by: string;
+  approval_date: string;
+}
+
+export interface ModelsListResponse {
+  count: number;
+  registry_health: string;
+  models: RegisteredModel[];
+}
+
+export interface ModelDriftResponse {
+  model_id: string;
+  checked_at: string;
+  overall_drift_status: string;
+  feature_drift_score: number;
+  prediction_drift_score: number;
+  data_completeness_drift: number;
+  features: { feature: string; drift_metric: string; status: string }[];
+}
+
+// ── Data Quality Types ──────────────────────────
+export interface DataSource {
+  source_id: string;
+  name: string;
+  type: string;
+  resolution: string;
+  coverage: string;
+  last_acquisition: string;
+  last_processed: string;
+  quality_score_percent: number;
+  status: string;
+  cloud_cover_percent: number;
+}
+
+export interface DataSourcesResponse {
+  count: number;
+  last_audit: string;
+  overall_health: string;
+  sources: DataSource[];
+}
+
+export interface DataQualityMetrics {
+  completeness_score_percent: number;
+  freshness_index: string;
+  schema_validity_percent: number;
+  spatial_coverage_percent: number;
+  outlier_rate_percent: number;
+  missing_values_percent: number;
+  total_records_analyzed: number;
+  data_quarantine_records: number;
+}
+
+// ── Audit Types ─────────────────────────────────
+export interface AuditLogEntry {
+  id: number;
+  timestamp: string;
+  user: string;
+  action: string;
+  entity: string;
+  previous_state: string;
+  new_state: string;
+  reason: string;
+  model_version: string;
+  data_version: string;
+}
+
+export interface AuditLogsResponse {
+  count: number;
+  logs: AuditLogEntry[];
+}
+
+export interface AuditEntryInput {
+  user: string;
+  action: string;
+  entity: string;
+  previous_state: string;
+  new_state: string;
+  reason: string;
+  model_version?: string;
+  data_version?: string;
+}
+

@@ -183,6 +183,7 @@ ACTION_HISTORY = [
 ]
 
 
+@router.get("/")
 @router.get("/actions")
 async def get_corrective_actions(
     mine_id: int = Query(None),

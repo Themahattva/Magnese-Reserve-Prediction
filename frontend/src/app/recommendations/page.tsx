@@ -7,8 +7,6 @@ import {
   Clock,
   Filter,
   TrendingUp,
-  AlertCircle,
-  ShieldAlert,
   ArrowUpDown,
   RotateCcw,
   Check,
@@ -240,11 +238,12 @@ export default function RecommendationsPage() {
 
     if (willImplement) {
       // Add to Action History tab
+      const todayStr = '2026-09-20';
       const newHistoryEntry: ActionHistory = {
-        id: Date.now(),
+        id: action.id * 1000 + 1,
         mine_name: action.mine_name,
         action: action.title,
-        date_implemented: new Date().toISOString().split('T')[0],
+        date_implemented: todayStr,
         predicted_impact_tonnes: action.estimated_impact_tonnes,
         actual_impact_tonnes: action.estimated_impact_tonnes,
         outcome: 'success',
