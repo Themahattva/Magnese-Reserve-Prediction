@@ -5,6 +5,8 @@ import { SESSION_COOKIE_NAME } from '@/lib/auth/employee-auth';
 // Public paths that do not require authentication
 const PUBLIC_PATHS = [
   '/login',
+  '/landing',
+  '/welcome',
   '/api/auth/login',
   '/api/auth/logout',
   '/api/auth/session',

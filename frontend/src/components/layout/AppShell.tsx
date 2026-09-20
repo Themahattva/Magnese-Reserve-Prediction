@@ -12,11 +12,14 @@ import { LanguageProvider } from '@/context/LanguageContext';
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isLoginPage = pathname === '/login';
+  const isLandingPage = pathname === '/landing' || pathname === '/welcome';
 
   return (
     <LanguageProvider>
       <AuthProvider>
-        {isLoginPage ? (
+        {isLandingPage ? (
+          <>{children}</>
+        ) : isLoginPage ? (
           <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <AccessibilityBar />
             {children}
