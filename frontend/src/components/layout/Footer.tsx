@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Shield, Activity } from 'lucide-react';
 
 export default function Footer() {
@@ -21,6 +22,27 @@ export default function Footer() {
               Satellite remote sensing delivers surface geological indicators to support inferred subsurface models.
               Underground manganese reserve calculations must be validated by core borehole assay logs.
             </p>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', alignSelf: 'center' }}>
+            <div
+              style={{
+                backgroundColor: '#ffffff',
+                borderRadius: '8px',
+                padding: '0.35rem 0.75rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Image
+                src="/make-in-india.png"
+                alt="Make in India"
+                width={140}
+                height={79}
+                style={{ height: '48px', width: 'auto', objectFit: 'contain' }}
+              />
+            </div>
           </div>
         </div>
 
