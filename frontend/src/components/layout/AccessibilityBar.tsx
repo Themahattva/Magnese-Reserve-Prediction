@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Moon, Sun } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function AccessibilityBar() {
   const [fontSizeOffset, setFontSizeOffset] = useState<number>(0);
-  const [lang, setLang] = useState<'hi' | 'en'>('hi');
+  const { language, setLanguage, t } = useLanguage();
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
@@ -38,15 +39,13 @@ export default function AccessibilityBar() {
   };
 
   const handleScreenReaderNotice = () => {
-    alert(
-      'Screen Reader Access Enabled: ANVESHA portal is compliant with GIGW 3.0 and WCAG 2.1 AA standards. All data tables and interactive charts provide semantic headings, ARIA landmarks, and high-contrast labels.'
-    );
+    alert(t('a11y.screen_reader_alert'));
   };
 
   return (
     <>
       <a href="#main-content" className="skip-link">
-        Skip to main content
+        {t('a11y.skip_to_main')}
       </a>
 
       <header className="moil-gov-masthead" role="banner" aria-label="Official Government of India MOIL Masthead">
@@ -62,8 +61,8 @@ export default function AccessibilityBar() {
               priority
               style={{ objectFit: 'contain' }}
             />
-            <div className="moil-brand-title">MOIL LIMITED</div>
-            <div className="moil-brand-subtitle">(A Government of India Enterprise)</div>
+            <div className="moil-brand-title">{t('brand.title')}</div>
+            <div className="moil-brand-subtitle">{t('brand.subtitle')}</div>
           </Link>
 
           {/* Center: Ashok Stambh (State Emblem of India) */}
@@ -87,8 +86,8 @@ export default function AccessibilityBar() {
                 type="button"
                 className="moil-theme-btn"
                 onClick={toggleTheme}
-                aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-                title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+                aria-label={theme === 'dark' ? t('a11y.theme_light') : t('a11y.theme_dark')}
+                title={theme === 'dark' ? t('a11y.theme_light') : t('a11y.theme_dark')}
               >
                 {theme === 'dark' ? (
                   <Sun size={14} style={{ color: '#fbbf24' }} />
@@ -101,16 +100,20 @@ export default function AccessibilityBar() {
               <div className="moil-lang-switcher" role="group" aria-label="Language selection">
                 <button
                   type="button"
-                  className={`moil-lang-pill ${lang === 'hi' ? 'active' : ''}`}
-                  onClick={() => setLang('hi')}
+                  className={`moil-lang-pill ${language === 'hi' ? 'active' : ''}`}
+                  onClick={() => setLanguage('hi')}
+                  aria-pressed={language === 'hi'}
+                  title="हिंदी भाषा चुनें (Switch to Hindi)"
                 >
                   हिंदी
                 </button>
                 <span className="moil-lang-divider">|</span>
                 <button
                   type="button"
-                  className={`moil-lang-text ${lang === 'en' ? 'active' : ''}`}
-                  onClick={() => setLang('en')}
+                  className={`moil-lang-text ${language === 'en' ? 'active' : ''}`}
+                  onClick={() => setLanguage('en')}
+                  aria-pressed={language === 'en'}
+                  title="Switch to English"
                 >
                   Eng
                 </button>
@@ -151,14 +154,14 @@ export default function AccessibilityBar() {
             {/* Lower Row: Accessibility Links */}
             <div className="moil-utility-links">
               <a href="#main-content" className="moil-a11y-link">
-                Skip To Main Content
+                {t('a11y.skip_to_main')}
               </a>
               <button
                 type="button"
                 onClick={handleScreenReaderNotice}
                 className="moil-a11y-link-btn"
               >
-                Screen Reader Access
+                {t('a11y.screen_reader')}
               </button>
             </div>
           </div>

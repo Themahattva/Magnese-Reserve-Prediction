@@ -19,8 +19,10 @@ import type { DashboardKPIs, MineStatus, ProductionTrendPoint, Alert } from '@/l
 import ProductionTrendChart from '@/components/charts/ProductionTrendChart';
 import MiniMap from '@/components/maps/MiniMap';
 import HEMMFleetSection from '@/components/dashboard/HEMMFleetSection';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function DashboardPage() {
+  const { t } = useLanguage();
   const [kpis, setKpis] = useState<DashboardKPIs | null>(null);
   const [mines, setMines] = useState<MineStatus[]>([]);
   const [trend, setTrend] = useState<ProductionTrendPoint[]>([]);
@@ -100,8 +102,8 @@ export default function DashboardPage() {
     return (
       <div style={{ padding: '3rem', textAlign: 'center' }}>
         <RefreshCw className="animate-spin" size={32} style={{ color: 'var(--ux4g-primary)', margin: '0 auto 1rem' }} />
-        <h2>Loading ANVESHA Mining Intelligence...</h2>
-        <p>Connecting to operational telemetry and geological models</p>
+        <h2>{t('dashboard.loading_title', 'Loading ANVESHA Mining Intelligence...')}</h2>
+        <p>{t('dashboard.loading_desc', 'Connecting to operational telemetry and geological models')}</p>
       </div>
     );
   }
@@ -111,24 +113,27 @@ export default function DashboardPage() {
       {/* Page Header */}
       <div className="page-header">
         <div>
-          <h1>Operational &amp; Exploration Dashboard</h1>
+          <h1>{t('dashboard.title', 'Operational & Exploration Dashboard')}</h1>
           <p>
-            Real-time synthesis of satellite mineral indicators, borehole assay distributions, and fleet telemetry across MOIL Ltd. mining leases.
+            {t(
+              'dashboard.subtitle',
+              'Real-time synthesis of satellite mineral indicators, borehole assay distributions, and fleet telemetry across MOIL Ltd. mining leases.'
+            )}
           </p>
         </div>
 
         <div className="page-actions">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
             <Clock size={13} aria-hidden="true" />
-            <span>Updated: 14 mins ago</span>
+            <span>{t('dashboard.updated', 'Updated: 14 mins ago')}</span>
           </div>
           <Link href="/exploration" className="ux4g-btn ux4g-btn-outline ux4g-btn-sm">
             <Layers size={14} aria-hidden="true" />
-            <span>Explore Map</span>
+            <span>{t('dashboard.explore_map', 'Explore Map')}</span>
           </Link>
           <Link href="/decisions" className="ux4g-btn ux4g-btn-primary ux4g-btn-sm">
             <Sparkles size={14} aria-hidden="true" />
-            <span>Review Actions</span>
+            <span>{t('dashboard.review_actions', 'Review Actions')}</span>
           </Link>
         </div>
       </div>
@@ -136,7 +141,7 @@ export default function DashboardPage() {
       {/* Filter / Freshness Bar */}
       <div className="filters-bar">
         <label htmlFor="district-filter" style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-          Mining Cluster:
+          {t('dashboard.cluster_label', 'Mining Cluster:')}
         </label>
         <select
           id="district-filter"
@@ -144,7 +149,7 @@ export default function DashboardPage() {
           value={selectedDistrict}
           onChange={(e) => setSelectedDistrict(e.target.value)}
         >
-          <option value="all">All Clusters (Maharashtra &amp; Madhya Pradesh)</option>
+          <option value="all">{t('dashboard.cluster_all', 'All Clusters (Maharashtra & Madhya Pradesh)')}</option>
           <option value="nagpur">Nagpur Cluster (Munsar, Kandri, Gumgaon, Parsioni)</option>
           <option value="bhandara">Bhandara Cluster (Dongri Buzurg, Chikla)</option>
           <option value="balaghat">Balaghat Cluster (Balaghat, Sitapatore, Tirodi)</option>
@@ -153,11 +158,11 @@ export default function DashboardPage() {
         <span style={{ color: 'var(--border-strong)', margin: '0 0.5rem' }}>|</span>
 
         <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-          Active Mines: <strong>{kpis?.mines_count || 9}</strong>
+          {t('dashboard.active_mines', 'Active Mines:')} <strong>{kpis?.mines_count || 9}</strong>
         </span>
         <span style={{ color: 'var(--border-strong)', margin: '0 0.5rem' }}>|</span>
         <span style={{ fontSize: '0.8rem', color: 'var(--status-critical)' }}>
-          Mines with Shortfall Risk: <strong>{kpis?.risk_mines_count || 2}</strong>
+          {t('dashboard.shortfall_risk_mines', 'Mines with Shortfall Risk:')} <strong>{kpis?.risk_mines_count || 2}</strong>
         </span>
       </div>
 
@@ -166,55 +171,61 @@ export default function DashboardPage() {
         <div className="kpi-card">
           <div className="kpi-label">
             <Mountain size={14} style={{ color: 'var(--ux4g-primary)' }} aria-hidden="true" />
-            <span>Total Inferred Reserves</span>
+            <span>{t('dashboard.total_reserves', 'Total Inferred Reserves')}</span>
           </div>
           <div className="kpi-value">{kpis?.total_reserves_mt || '—'} MT</div>
-          <div className="kpi-change neutral">Across {kpis?.mines_count || 9} operational blocks</div>
+          <div className="kpi-change neutral">
+            {t('dashboard.across_blocks', 'Across operational blocks')} ({kpis?.mines_count || 9})
+          </div>
         </div>
 
         <div className="kpi-card">
           <div className="kpi-label">
             <Factory size={14} style={{ color: '#0bbbea' }} aria-hidden="true" />
-            <span>Monthly Production</span>
+            <span>{t('dashboard.monthly_production', 'Monthly Production')}</span>
           </div>
           <div className="kpi-value">
             {kpis ? (kpis.current_production_rate / 1000).toFixed(1) : '—'}K MT
           </div>
           <div className="kpi-change negative">
             <TrendingDown size={12} aria-hidden="true" />
-            <span>{shortfallPercent}% below target (110K MT)</span>
+            <span>
+              {shortfallPercent}% {t('dashboard.below_target', 'below target')} (110K MT)
+            </span>
           </div>
         </div>
 
         <div className="kpi-card">
           <div className="kpi-label">
             <AlertTriangle size={14} style={{ color: 'var(--status-high)' }} aria-hidden="true" />
-            <span>Active Alerts</span>
+            <span>{t('dashboard.active_alerts', 'Active Alerts')}</span>
           </div>
           <div className="kpi-value" style={{ color: 'var(--status-high)' }}>
             {kpis?.active_alerts || '—'}
           </div>
           <div className="kpi-change negative">
-            <span>{kpis?.risk_mines_count || 0} sites requiring operational review</span>
+            <span>
+              {kpis?.risk_mines_count || 0} {t('dashboard.sites_review', 'sites requiring operational review')}
+            </span>
           </div>
         </div>
 
         <div className="kpi-card">
           <div className="kpi-label">
             <Gauge size={14} style={{ color: 'var(--status-low)' }} aria-hidden="true" />
-            <span>Fleet Availability</span>
+            <span>{t('dashboard.fleet_availability', 'Fleet Availability')}</span>
           </div>
           <div className="kpi-value">{kpis?.equipment_utilization || '—'}%</div>
-          <div className="kpi-change positive">Above baseline threshold (75%)</div>
+          <div className="kpi-change positive">{t('dashboard.above_baseline', 'Above baseline threshold (75%)')}</div>
         </div>
 
         <div className="kpi-card">
           <div className="kpi-label">
             <Sparkles size={14} style={{ color: '#d98a00' }} aria-hidden="true" />
-            <span>Average Ore Grade</span>
+            <span>{t('dashboard.avg_ore_grade', 'Average Ore Grade')}</span>
           </div>
           <div className="kpi-value">{kpis?.avg_ore_grade || '—'}%</div>
-          <div className="kpi-change neutral">Run-of-mine Mn concentration</div>
+          <div className="kpi-change neutral">{t('dashboard.run_of_mine', 'Run-of-mine Mn concentration')}</div>
         </div>
       </div>
 
@@ -225,7 +236,7 @@ export default function DashboardPage() {
           <div className="ux4g-card-header">
             <h3>
               <Factory size={16} style={{ color: 'var(--ux4g-primary)' }} aria-hidden="true" />
-              <span>Production vs. Target Horizon (12-Month Trend)</span>
+              <span>{t('dashboard.trend_title', 'Production vs. Target Horizon (12-Month Trend)')}</span>
             </h3>
             <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Unit: Tonnes / Month</span>
           </div>
@@ -246,7 +257,7 @@ export default function DashboardPage() {
           <div className="ux4g-card-header">
             <h3>
               <Layers size={16} style={{ color: 'var(--ux4g-primary)' }} aria-hidden="true" />
-              <span>Mine Locations &amp; Shortfall Risk</span>
+              <span>{t('dashboard.map_title', 'Mine Locations & Shortfall Risk')}</span>
             </h3>
             <span className="ux4g-badge badge-neutral">9 Active Leases</span>
           </div>
@@ -271,10 +282,10 @@ export default function DashboardPage() {
         <div className="ux4g-card-header">
           <h3>
             <AlertTriangle size={16} style={{ color: 'var(--status-critical)' }} aria-hidden="true" />
-            <span>Shortfall Warnings &amp; Pending Reviews</span>
+            <span>{t('dashboard.recent_alerts_title', 'Shortfall Warnings & Pending Reviews')}</span>
           </h3>
           <Link href="/decisions" className="ux4g-btn ux4g-btn-primary ux4g-btn-sm">
-            <span>Decision Center</span>
+            <span>{t('nav.decisions', 'Decision Center')}</span>
             <ArrowUpRight size={13} aria-hidden="true" />
           </Link>
         </div>
@@ -282,7 +293,7 @@ export default function DashboardPage() {
           <table className="ux4g-table">
             <thead>
               <tr>
-                <th scope="col">Risk Level</th>
+                <th scope="col">{t('common.risk', 'Risk Level')}</th>
                 <th scope="col">Mine Site</th>
                 <th scope="col">Alert Description</th>
                 <th scope="col">Target Horizon</th>

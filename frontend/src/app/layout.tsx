@@ -5,6 +5,7 @@ import AccessibilityBar from '@/components/layout/AccessibilityBar';
 import Navbar from '@/components/layout/Navbar';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import Footer from '@/components/layout/Footer';
+import { LanguageProvider } from '@/context/LanguageContext';
 
 export const metadata: Metadata = {
   title: 'ANVESHA — Uncertainty-Aware AI for Manganese Exploration & Production',
@@ -31,15 +32,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <AccessibilityBar />
-          <Navbar />
-          <Breadcrumbs />
-          <main id="main-content" className="ux4g-main-container" tabIndex={-1}>
-            {children}
-          </main>
-          <Footer />
-        </div>
+        <LanguageProvider>
+          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <AccessibilityBar />
+            <Navbar />
+            <Breadcrumbs />
+            <main id="main-content" className="ux4g-main-container" tabIndex={-1}>
+              {children}
+            </main>
+            <Footer />
+          </div>
+        </LanguageProvider>
       </body>
     </html>
   );

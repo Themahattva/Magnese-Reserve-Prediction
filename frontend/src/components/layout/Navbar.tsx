@@ -14,20 +14,22 @@ import {
   AlertTriangle,
   Sliders,
 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
-const NAV_ITEMS = [
-  { href: '/', label: 'Dashboard', icon: Compass },
-  { href: '/exploration', label: 'Exploration', icon: Layers },
-  { href: '/production', label: 'Production Intelligence', icon: TrendingUp },
-  { href: '/simulation', label: 'What-If Simulation', icon: Sliders },
-  { href: '/decisions', label: 'Decision Center', icon: CheckSquare },
-  { href: '/data', label: 'Data Sources', icon: Database },
-  { href: '/models', label: 'Model Registry', icon: Cpu },
-  { href: '/reports', label: 'Reports & Audit', icon: FileText },
+const NAV_BASE = [
+  { href: '/', key: 'nav.dashboard', defaultLabel: 'Dashboard', icon: Compass },
+  { href: '/exploration', key: 'nav.exploration', defaultLabel: 'Exploration', icon: Layers },
+  { href: '/production', key: 'nav.production', defaultLabel: 'Production Intelligence', icon: TrendingUp },
+  { href: '/simulation', key: 'nav.simulation', defaultLabel: 'What-If Simulation', icon: Sliders },
+  { href: '/decisions', key: 'nav.decisions', defaultLabel: 'Decision Center', icon: CheckSquare },
+  { href: '/data', key: 'nav.data', defaultLabel: 'Data Sources', icon: Database },
+  { href: '/models', key: 'nav.models', defaultLabel: 'Model Registry', icon: Cpu },
+  { href: '/reports', key: 'nav.reports', defaultLabel: 'Reports & Audit', icon: FileText },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   return (
     <nav className="ux4g-navbar" aria-label="Main Navigation">
@@ -38,14 +40,14 @@ export default function Navbar() {
             <span>अन्वेषा</span>
           </div>
           <div className="ux4g-brand-text">
-            <h1>ANVESHA</h1>
-            <p>Mining Exploration &amp; Production AI</p>
+            <h1>{t('brand.nav_title', 'ANVESHA')}</h1>
+            <p>{t('brand.nav_subtitle', 'Mining Exploration & Production AI')}</p>
           </div>
         </Link>
 
         {/* Primary Navigation Links */}
         <ul className="ux4g-nav-links" role="menubar">
-          {NAV_ITEMS.map((item) => {
+          {NAV_BASE.map((item) => {
             const Icon = item.icon;
             const isExact = pathname === item.href;
             const isSub = item.href !== '/' && pathname.startsWith(item.href);
@@ -65,7 +67,7 @@ export default function Navbar() {
                   aria-current={isActive ? 'page' : undefined}
                 >
                   <Icon size={15} aria-hidden="true" />
-                  <span>{item.label}</span>
+                  <span>{t(item.key, item.defaultLabel)}</span>
                 </Link>
               </li>
             );
@@ -77,13 +79,13 @@ export default function Navbar() {
           {/* Simulation Mode Badge */}
           <div className="demo-mode-badge" title="Verified Simulation Mode active">
             <span className="status-dot-pulse" aria-hidden="true" />
-            <span>Simulation</span>
+            <span>{t('badge.simulation', 'Simulation')}</span>
           </div>
 
           {/* User Session Role */}
           <div className="reviewer-session-badge" title="Logged in as Technical Reviewer (MOIL Ltd.)">
             <UserCheck size={13} style={{ color: 'var(--ux4g-primary)' }} aria-hidden="true" />
-            <span>Reviewer (MOIL)</span>
+            <span>{t('badge.reviewer', 'Reviewer (MOIL)')}</span>
           </div>
 
           {/* Alerts Badge */}
@@ -93,7 +95,7 @@ export default function Navbar() {
             aria-label="4 system alerts requiring review"
           >
             <AlertTriangle size={13} aria-hidden="true" />
-            <span>4 Alerts</span>
+            <span>{t('badge.alerts', '4 Alerts')}</span>
           </Link>
         </div>
       </div>

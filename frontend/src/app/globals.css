@@ -326,51 +326,61 @@ a:hover {
 .moil-lang-switcher {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.25rem;
   font-size: 0.8rem;
   font-weight: 500;
+  background: #f8fafc;
+  padding: 0.15rem 0.3rem;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
 }
-.moil-lang-pill {
-  background-color: #1e3a5f;
-  color: #ffffff;
-  border: none;
-  border-radius: 12px;
-  padding: 0.12rem 0.6rem;
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.15s ease;
+[data-theme="dark"] .moil-lang-switcher {
+  background: #1e293b;
+  border-color: #334155;
 }
-.moil-lang-pill:hover {
-  background-color: #152942;
-}
-.moil-lang-pill:not(.active) {
-  background-color: #e2e8f0;
-  color: #334155;
-}
-[data-theme="dark"] .moil-lang-pill:not(.active) {
-  background-color: #334155;
-  color: #cbd5e1;
-}
-.moil-lang-divider {
-  color: #9ca3af;
-  font-size: 0.75rem;
-}
+.moil-lang-pill,
 .moil-lang-text {
   background: transparent;
   border: none;
-  color: #374151;
-  font-size: 0.8rem;
+  border-radius: 10px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.78rem;
   font-weight: 500;
+  color: #475569;
   cursor: pointer;
-  padding: 0.1rem 0.25rem;
+  transition: all 0.15s ease;
+  line-height: 1.3;
 }
+[data-theme="dark"] .moil-lang-pill,
 [data-theme="dark"] .moil-lang-text {
-  color: #cbd5e1;
+  color: #94a3b8;
 }
+.moil-lang-pill:hover,
 .moil-lang-text:hover {
-  color: #0284c7;
+  color: #1e3a5f;
+}
+[data-theme="dark"] .moil-lang-pill:hover,
+[data-theme="dark"] .moil-lang-text:hover {
+  color: #38bdf8;
+}
+.moil-lang-pill.active,
+.moil-lang-text.active {
+  background-color: #1e3a5f;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+[data-theme="dark"] .moil-lang-pill.active,
+[data-theme="dark"] .moil-lang-text.active {
+  background-color: #0284c7;
+  color: #ffffff;
+}
+.moil-lang-divider {
+  color: #cbd5e1;
+  font-size: 0.7rem;
+}
+[data-theme="dark"] .moil-lang-divider {
+  color: #475569;
 }
 
 /* Font Size Controls A- A A+ */
