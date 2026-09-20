@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, Shield, AlertCircle, CheckCircle2, Lock, User, Info, KeyRound } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
@@ -355,11 +354,6 @@ export default function LoginPage() {
             <span>GIGW 3.0 Standard</span>
             <span>&bull;</span>
             <span>AES-256 Auth Session</span>
-          </div>
-          <div style={{ marginTop: '0.6rem' }}>
-            <Link href="/landing" style={{ fontSize: '0.73rem', color: 'var(--ux4g-primary, #0284c7)', textDecoration: 'none', fontWeight: 500 }}>
-              &bull; {isHindi ? 'प्रारंभिक लोडिंग पोर्टल देखें' : 'View Portal Introduction & Loading Screen'} &bull;
-            </Link>
           </div>
         </div>
       </main>
