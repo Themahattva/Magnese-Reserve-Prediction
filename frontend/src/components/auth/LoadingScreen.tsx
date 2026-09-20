@@ -7,13 +7,18 @@ import { useRouter } from 'next/navigation';
 interface LoadingScreenProps {
   redirectUrl?: string;
   autoRedirect?: boolean;
+  onComplete?: () => void;
+  isOverlay?: boolean;
 }
 
 export default function LoadingScreen({
   redirectUrl = '/login',
   autoRedirect = true,
+  onComplete,
+  isOverlay = false,
 }: LoadingScreenProps) {
   const [progress, setProgress] = useState(0);
+  const [fading, setFading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -21,24 +26,34 @@ export default function LoadingScreen({
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          if (autoRedirect) {
-            setTimeout(() => {
+          setFading(true);
+          setTimeout(() => {
+            if (onComplete) {
+              onComplete();
+            } else if (autoRedirect && redirectUrl) {
               router.push(redirectUrl);
-            }, 300);
-          }
+            }
+          }, 300);
           return 100;
         }
-        // Smooth increment
-        const next = prev + Math.floor(Math.random() * 8) + 4;
+        // Smooth increment: ~5% every 45ms -> ~1 second total
+        const increment = Math.floor(Math.random() * 6) + 4;
+        const next = prev + increment;
         return next > 100 ? 100 : next;
       });
-    }, 120);
+    }, 45);
 
     return () => clearInterval(interval);
-  }, [autoRedirect, redirectUrl, router]);
+  }, [autoRedirect, redirectUrl, onComplete, router]);
 
   return (
-    <div className="simple-loading-container">
+    <div
+      className={`simple-loading-container ${isOverlay ? 'is-overlay' : ''} ${
+        fading ? 'is-fading' : ''
+      }`}
+      aria-live="polite"
+      aria-label="Loading ANVESHA"
+    >
       <div className="center-card">
         {/* Centered Logos */}
         <div className="logos-group">
@@ -102,6 +117,21 @@ export default function LoadingScreen({
           margin: 0;
           box-sizing: border-box;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+          transition: opacity 0.3s ease-out;
+        }
+
+        .simple-loading-container.is-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 99999;
+        }
+
+        .simple-loading-container.is-fading {
+          opacity: 0;
+          pointer-events: none;
         }
 
         .center-card {
@@ -172,7 +202,7 @@ export default function LoadingScreen({
           height: 100%;
           background-color: #1e3a5f;
           border-radius: 9999px;
-          transition: width 0.12s ease-out;
+          transition: width 0.08s ease-out;
         }
 
         .progress-meta {
