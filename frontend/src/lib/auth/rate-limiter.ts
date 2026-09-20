@@ -17,6 +17,16 @@ const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const BLOCK_DURATION_MS = 15 * 60 * 1000; // 15 minutes lockout
 
 export function checkRateLimit(identifier: string): { allowed: boolean; retryAfterSeconds?: number } {
+  // Never rate-limit loopback IP in local development / demo mode
+  const isLoopback =
+    identifier === '127.0.0.1' ||
+    identifier === '::1' ||
+    identifier === 'localhost';
+
+  if (isLoopback && process.env.NODE_ENV !== 'production') {
+    return { allowed: true };
+  }
+
   const now = Date.now();
   const record = rateLimitStore.get(identifier);
 
@@ -46,6 +56,16 @@ export function checkRateLimit(identifier: string): { allowed: boolean; retryAft
 }
 
 export function recordFailedAttempt(identifier: string) {
+  // Do not record loopback IP in development
+  const isLoopback =
+    identifier === '127.0.0.1' ||
+    identifier === '::1' ||
+    identifier === 'localhost';
+
+  if (isLoopback && process.env.NODE_ENV !== 'production') {
+    return;
+  }
+
   const now = Date.now();
   const record = rateLimitStore.get(identifier) || { attempts: 0, lastAttempt: now };
 
@@ -61,4 +81,8 @@ export function recordFailedAttempt(identifier: string) {
 
 export function clearRateLimit(identifier: string) {
   rateLimitStore.delete(identifier);
+}
+
+export function resetAllRateLimits() {
+  rateLimitStore.clear();
 }

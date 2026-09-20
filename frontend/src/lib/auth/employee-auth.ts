@@ -88,8 +88,8 @@ export async function authenticateEmployee(
 ): Promise<{ success: boolean; user?: SessionUser; error?: string; retryAfterSeconds?: number }> {
   const employeeId = employeeIdInput.trim().toUpperCase();
 
-  // 1. Rate limiting check
-  const rateLimit = checkRateLimit(ipAddress || employeeId);
+  // 1. Rate limiting check (per employee ID to avoid locking entire machine)
+  const rateLimit = checkRateLimit(employeeId);
   if (!rateLimit.allowed) {
     return {
       success: false,
@@ -184,7 +184,7 @@ export async function authenticateEmployee(
   // 3. Demonstration Mode Validation
   const demoEmp = DEMO_EMPLOYEES[employeeId];
   if (!demoEmp) {
-    recordFailedAttempt(ipAddress || employeeId);
+    recordFailedAttempt(employeeId);
     await recordAuditLog(employeeId, 'LOGIN_FAILURE', false, ipAddress, userAgent, { reason: 'Unknown ID' });
     return {
       success: false,
@@ -193,7 +193,7 @@ export async function authenticateEmployee(
   }
 
   if (!demoEmp.is_active || demoEmp.status !== 'active') {
-    recordFailedAttempt(ipAddress || employeeId);
+    recordFailedAttempt(employeeId);
     await recordAuditLog(employeeId, 'LOGIN_FAILURE', false, ipAddress, userAgent, { reason: 'Account inactive' });
     return {
       success: false,
@@ -204,7 +204,7 @@ export async function authenticateEmployee(
   // Validate demo password
   const expectedPassword = demoEmp.demoPassword || 'Password@123';
   if (passwordInput !== expectedPassword && passwordInput !== 'Moil@2026' && passwordInput !== 'Anvesha@2026') {
-    recordFailedAttempt(ipAddress || employeeId);
+    recordFailedAttempt(employeeId);
     await recordAuditLog(employeeId, 'LOGIN_FAILURE', false, ipAddress, userAgent, { reason: 'Password mismatch' });
     return {
       success: false,
@@ -213,7 +213,7 @@ export async function authenticateEmployee(
   }
 
   // Success in demo mode
-  clearRateLimit(ipAddress || employeeId);
+  clearRateLimit(employeeId);
 
   const sessionUser: SessionUser = {
     id: demoEmp.id,
